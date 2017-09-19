@@ -89,14 +89,13 @@ namespace Console
 
             while (!isDone)
             {
-                System.Console.WriteLine("Enter bet type:");
+                System.Console.WriteLine("Enter bet type:\nsingle, color, column, corner, dozen, even, five, half, line, split, street or done when you are ready");
                 var betType = System.Console.ReadLine();
 
                 switch (betType?.ToLower())
                 {
                     case "single":
                         SingleBet(player, ref bet);
-
                         break;
                     case "color":
                         ColorBet(player, ref bet);
