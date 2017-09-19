@@ -1,0 +1,6 @@
+C:\Users\glenngi\Documents\dotNET academy\OOP\Roulette\Roulette\obj\Debug\Roulette.csprojResolveAssemblyReference.cache
+C:\Users\glenngi\Documents\dotNET academy\OOP\Roulette\Roulette\obj\Debug\Roulette.csproj.CoreCompileInputs.cache
+C:\Users\glenngi\Documents\dotNET academy\OOP\Roulette\Roulette\bin\Debug\Roulette.dll
+C:\Users\glenngi\Documents\dotNET academy\OOP\Roulette\Roulette\bin\Debug\Roulette.pdb
+C:\Users\glenngi\Documents\dotNET academy\OOP\Roulette\Roulette\obj\Debug\Roulette.dll
+C:\Users\glenngi\Documents\dotNET academy\OOP\Roulette\Roulette\obj\Debug\Roulette.pdb
