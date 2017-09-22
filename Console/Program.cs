@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using Roulette;
 using Roulette.Bets;
@@ -16,6 +17,32 @@ namespace Console
         private static void Main(string[] args)
         {
             StartGame();
+        }
+
+        private static void ShowPlayerStack(int turn)
+        {
+            //Game = new Game();
+            //Game.Players.Add((new Player(Game, 1520, "ik")));
+            //Game.Players.Add((new Player(Game, 1520, "jij")));
+
+            var aantalKarakters = 60;
+            var playerLine = "";
+            var stackes = $" Stackes turn {turn} ";
+            System.Console.WriteLine(new string('-', aantalKarakters));
+            System.Console.WriteLine("|" + new string('-', aantalKarakters / 2 - stackes.Length / 2 - 1) + stackes + new string('-', aantalKarakters / 2 - stackes.Length / 2 - 1) + "|");
+            System.Console.WriteLine("|" + new string('-', aantalKarakters - 2) + "|");
+
+            foreach (var player in Game.Players)
+            {
+                playerLine = player.Name + new string(' ', 40 - player.Name.Length) + "$" + 
+                             new string(' ', 10 - player.TotalCredits.ToString().Length) +
+                             player.TotalCredits;
+                var lul = $"|  {playerLine}";
+                System.Console.WriteLine(lul + new string(' ', aantalKarakters - lul.Length - 3) + "  |");
+            }
+            
+
+            System.Console.WriteLine(new string('-', aantalKarakters));
         }
 
         private static void StartGame()
