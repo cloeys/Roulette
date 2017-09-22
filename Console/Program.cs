@@ -63,16 +63,16 @@ namespace Console
             while (aantalSpelers <= 0 || aantalSpelers > MAX_PLAYERS)
             {
                 System.Console.Clear();
-                System.Console.WriteLine("Welcome to Cegekas Grand Roulette!");
+                System.Console.WriteLine("Welcome to Cegekas Roulette!");
                 System.Console.WriteLine();
-                System.Console.WriteLine($"Number of players (1-{MAX_PLAYERS}):");
+                System.Console.WriteLine($"Number of players [1-{MAX_PLAYERS}]:");
                 Int32.TryParse(System.Console.ReadLine(), out aantalSpelers);
             }
 
             for (int i = 1; i <= aantalSpelers; i++)
             {
                 System.Console.Clear();
-                System.Console.WriteLine("Welcome to Cegekas Grand Roulette!");
+                System.Console.WriteLine("Welcome to Cegekas Roulette!");
                 System.Console.WriteLine();
                 System.Console.WriteLine($"Player {i} enter name: ");
                 var name = System.Console.ReadLine();
@@ -90,10 +90,9 @@ namespace Console
 
                 foreach (var player in Game.Players)
                 {
-
-                    PlaceBet(player);
-
+                    StrategyBetQuestion(player);
                 }
+
 
                 System.Console.Write("Spinning the wheel");
                 for (int i = 0; i < 3; i++)
@@ -131,13 +130,12 @@ namespace Console
 
             while (!isDone)
             {
-                ShowPlayerStack();
                 if (error != "")
                 {
                     System.Console.WriteLine($"\n Error: {error}\n\n");
                     error = "";
                 }
-                System.Console.WriteLine($"{player.Name}, place your bets (Current credits: {player.TotalCredits}): ");
+                System.Console.WriteLine($"{player.Name}, which bet do you want to place? ");
                 System.Console.WriteLine("[1] Single\n[2] Color\n[3] Column\n[4] Corner\n[5] Dozen\n[6] Even\n[7] Five\n[8] Half\n[9] Line\n[10] Split\n[11] Street\n[0] Continue\n\nEnter bet type:");
                 var betType = System.Console.ReadLine();
 
@@ -185,7 +183,6 @@ namespace Console
                 }
 
                 if (isDone || bet == null) continue;
-                System.Console.WriteLine();
                 System.Console.WriteLine("Enter amount to bet:");
                 var amount = double.Parse(System.Console.ReadLine() ?? throw new InvalidOperationException());
 
@@ -200,10 +197,37 @@ namespace Console
                 else
                 {
                     ShowPlayerStack();
-                    System.Console.WriteLine($"Placed bet for player {player.Name} (Current credits: {player.TotalCredits})!");
+                    System.Console.WriteLine($"Placed bet for player {player.Name}!");
                 }
             }
         }
+
+        private static void StrategyBetQuestion(Player player)
+        {
+            ShowPlayerStack();
+            System.Console.WriteLine($"{player.Name}, how do you want to place a bet?\n[1] Bet\n[2] Strategy\n[0] Continue without bet\n\nEnter answer:");
+            var answer = System.Console.ReadLine();
+            if (Int32.TryParse(answer, out int choice) && (choice == 1 || choice == 2 || choice == 0))
+            {
+                ShowPlayerStack();
+                switch (choice)
+                {
+                    case 1:
+                        PlaceBet(player);
+                        break;
+                    case 2:
+                        break;
+                    case 0:
+                        break;
+                    default:
+                        StrategyBetQuestion(player);
+                        break;
+                }
+            }
+
+
+        }
+
 
         private static void SingleBet(Player player, ref Bet bet)
         {
