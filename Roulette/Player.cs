@@ -4,6 +4,7 @@
     {
         public string Name { get; set; }
         public double TotalCredits { get; set; }
+        public Strategy Strategy { get; set; }
 
         public Game Game { get; }
 

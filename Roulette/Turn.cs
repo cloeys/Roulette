@@ -56,6 +56,7 @@ namespace Roulette
             {
                 var winnings = bet.CalculatePayout(WinningTile);
                 _game.AddCreditsPlayer(winnings, bet);
+                bet.HasWon = false;
             }
         }
     }

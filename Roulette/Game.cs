@@ -54,5 +54,10 @@ namespace Roulette
         {
             return player.PlaceBet(bet);
         }
+
+        public void AssignStrategy(Player player, Strategy strategy)
+        {
+            player.Strategy = strategy;
+        }
     }
 }

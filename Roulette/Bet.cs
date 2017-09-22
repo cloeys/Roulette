@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 
 namespace Roulette
 {
@@ -8,6 +9,7 @@ namespace Roulette
         public Player Player;
         public IList<Tile> Tiles = new List<Tile>();
         public double WinAmount { get; private set; }
+        public bool HasWon { get; set; }
 
         protected readonly double PayoutRate;
 
@@ -37,8 +39,9 @@ namespace Roulette
 
         public double CalculatePayout(Tile tile)
         {
-            if (!IsWinner(tile)) return 0;
+            if (!IsWinner(tile)) {return 0;}
             WinAmount = Amount * PayoutRate;
+            HasWon = true;
             return WinAmount;
         }
 
