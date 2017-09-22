@@ -12,6 +12,7 @@ namespace Console
     internal class Program
     {
         private const double START_CREDITS = 1000;
+        private const int MAX_PLAYERS = 4;
         public static Game Game;
 
         private static void Main(string[] args)
@@ -19,30 +20,34 @@ namespace Console
             StartGame();
         }
 
-        private static void ShowPlayerStack(int turn)
+        private static void ShowPlayerStack()
         {
-            //Game = new Game();
-            //Game.Players.Add((new Player(Game, 1520, "ik")));
-            //Game.Players.Add((new Player(Game, 1520, "jij")));
+            System.Console.Clear();
 
-            var aantalKarakters = 60;
-            var playerLine = "";
-            var stackes = $" Stackes turn {turn} ";
-            System.Console.WriteLine(new string('-', aantalKarakters));
-            System.Console.WriteLine("|" + new string('-', aantalKarakters / 2 - stackes.Length / 2 - 1) + stackes + new string('-', aantalKarakters / 2 - stackes.Length / 2 - 1) + "|");
-            System.Console.WriteLine("|" + new string('-', aantalKarakters - 2) + "|");
+
+
+            var longest = Game.Players.Max(p => p.Name.Length);
+
+            int aantalKarakters = 50 + longest;
+
+            var stakes = $" Turn {Game.TurnHistory.Count} ";
+            System.Console.WriteLine(new string('=', aantalKarakters));
+            System.Console.WriteLine("||" + new string('-', aantalKarakters / 2 - stakes.Length / 2 - 2) + stakes + new string('-', aantalKarakters / 2 - stakes.Length / 2 - 2) + "||");
+            System.Console.WriteLine("||" + new string('=', aantalKarakters - 4) + "||");
 
             foreach (var player in Game.Players)
             {
-                playerLine = player.Name + new string(' ', 40 - player.Name.Length) + "$" + 
+                var playerLine = "";
+                playerLine = player.Name + new string(' ', longest + 10 - player.Name.Length) + "$" +
                              new string(' ', 10 - player.TotalCredits.ToString().Length) +
                              player.TotalCredits;
-                var lul = $"|  {playerLine}";
-                System.Console.WriteLine(lul + new string(' ', aantalKarakters - lul.Length - 3) + "  |");
+                var info = $"||  {playerLine}";
+                System.Console.WriteLine(info + new string(' ', aantalKarakters - info.Length - 4) + "  ||");
             }
-            
 
-            System.Console.WriteLine(new string('-', aantalKarakters));
+
+            System.Console.WriteLine(new string('=', aantalKarakters));
+            System.Console.WriteLine();
         }
 
         private static void StartGame()
@@ -55,12 +60,12 @@ namespace Console
 
             var aantalSpelers = 0;
 
-            while (aantalSpelers <= 0 || aantalSpelers > 4)
+            while (aantalSpelers <= 0 || aantalSpelers > MAX_PLAYERS)
             {
                 System.Console.Clear();
                 System.Console.WriteLine("Welcome to Cegekas Grand Roulette!");
                 System.Console.WriteLine();
-                System.Console.WriteLine("Number of players (1-4):");
+                System.Console.WriteLine($"Number of players (1-{MAX_PLAYERS}):");
                 Int32.TryParse(System.Console.ReadLine(), out aantalSpelers);
             }
 
@@ -85,8 +90,7 @@ namespace Console
 
                 foreach (var player in Game.Players)
                 {
-                    ClearShowInfo();
-                    System.Console.WriteLine($"{player.Name}, place your bets (Current credits: {player.TotalCredits}): ");
+
                     PlaceBet(player);
 
                 }
@@ -123,11 +127,18 @@ namespace Console
         {
             var isDone = false;
             Bet bet = null;
+            var error = "";
 
             while (!isDone)
             {
-                ClearShowInfo();
-                System.Console.WriteLine("[1] Single\n[2] Color\n[3] Column\n[4] Corner\n[5] Dozen\n[6] Even\n[7] Five\n[8] Half\n[9] Line\n[10] Split\n[11] Street\n[0] Continue\nEnter bet type:");
+                ShowPlayerStack();
+                if (error != "")
+                {
+                    System.Console.WriteLine($"\n Error: {error}\n\n");
+                    error = "";
+                }
+                System.Console.WriteLine($"{player.Name}, place your bets (Current credits: {player.TotalCredits}): ");
+                System.Console.WriteLine("[1] Single\n[2] Color\n[3] Column\n[4] Corner\n[5] Dozen\n[6] Even\n[7] Five\n[8] Half\n[9] Line\n[10] Split\n[11] Street\n[0] Continue\n\nEnter bet type:");
                 var betType = System.Console.ReadLine();
 
                 switch (betType?.ToLower())
@@ -157,7 +168,7 @@ namespace Console
                         HalfBet(player, ref bet);
                         break;
                     case "9":
-                        LineBet(player, ref bet);
+                        error = LineBet(player, ref bet);
                         break;
                     case "10":
                         SplitBet(player, ref bet);
@@ -174,19 +185,21 @@ namespace Console
                 }
 
                 if (isDone || bet == null) continue;
+                System.Console.WriteLine();
                 System.Console.WriteLine("Enter amount to bet:");
                 var amount = double.Parse(System.Console.ReadLine() ?? throw new InvalidOperationException());
 
                 bet.Amount = amount;
 
-                
+
                 if (!Game.PlayerPlaceBet(player, bet))
                 {
-                    ClearShowInfo();
+                    ShowPlayerStack();
                     System.Console.WriteLine($"Placing bet for player {player.Name} failed!");
-                } else
+                }
+                else
                 {
-                    ClearShowInfo();
+                    ShowPlayerStack();
                     System.Console.WriteLine($"Placed bet for player {player.Name} (Current credits: {player.TotalCredits})!");
                 }
             }
@@ -308,18 +321,16 @@ namespace Console
             }
         }
 
-        private static void LineBet(Player player, ref Bet bet)
+        private static string LineBet(Player player, ref Bet bet)
         {
             System.Console.WriteLine("Enter which number of row to bet on:");
             var value = System.Console.ReadLine();
             if (Int32.TryParse(value, out int number) && number > 0 && number < 12)
             {
                 bet = new LineBet(player, number);
+                return null;
             }
-            else
-            {
-                System.Console.WriteLine("Invalid number of row, please try again!");
-            }
+            return "Invalid number of row, please try again!";
         }
 
         private static void SplitBet(Player player, ref Bet bet)
@@ -367,7 +378,7 @@ namespace Console
         {
             System.Console.Clear();
             System.Console.WriteLine($"==============Turn {Game.TurnHistory.Count}==============");
-            
+
             foreach (var player in Game.Players)
             {
                 System.Console.WriteLine($"{player.Name}: $ {player.TotalCredits}");
