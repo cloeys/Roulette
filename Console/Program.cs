@@ -22,23 +22,32 @@ namespace Console
         {
             Game = new Game();
 
+            System.Console.WriteLine("\r\n  ______                                 __                             \r\n /      \\                               /  |                            \r\n/$$$$$$  |  ______    ______    ______  $$ |   __   ______    _______   \r\n$$ |  $$/  /      \\  /      \\  /      \\ $$ |  /  | /      \\  /       |  \r\n$$ |      /$$$$$$  |/$$$$$$  |/$$$$$$  |$$ |_/$$/  $$$$$$  |/$$$$$$$/   \r\n$$ |   __ $$    $$ |$$ |  $$ |$$    $$ |$$   $$<   /    $$ |$$      \\   \r\n$$ \\__/  |$$$$$$$$/ $$ \\__$$ |$$$$$$$$/ $$$$$$  \\ /$$$$$$$ | $$$$$$  |  \r\n$$    $$/ $$       |$$    $$ |$$       |$$ | $$  |$$    $$ |/     $$/   \r\n $$$$$$/   $$$$$$$/  $$$$$$$ | $$$$$$$/ $$/   $$/  $$$$$$$/ $$$$$$$/    \r\n                    /  \\__$$ |                                          \r\n                    $$    $$/                                           \r\n                     $$$$$$/                                            \r\n _______                       __              __      __               \r\n/       \\                     /  |            /  |    /  |              \r\n$$$$$$$  |  ______   __    __ $$ |  ______   _$$ |_  _$$ |_     ______  \r\n$$ |__$$ | /      \\ /  |  /  |$$ | /      \\ / $$   |/ $$   |   /      \\ \r\n$$    $$< /$$$$$$  |$$ |  $$ |$$ |/$$$$$$  |$$$$$$/ $$$$$$/   /$$$$$$  |\r\n$$$$$$$  |$$ |  $$ |$$ |  $$ |$$ |$$    $$ |  $$ | __ $$ | __ $$    $$ |\r\n$$ |  $$ |$$ \\__$$ |$$ \\__$$ |$$ |$$$$$$$$/   $$ |/  |$$ |/  |$$$$$$$$/ \r\n$$ |  $$ |$$    $$/ $$    $$/ $$ |$$       |  $$  $$/ $$  $$/ $$       |\r\n$$/   $$/  $$$$$$/   $$$$$$/  $$/  $$$$$$$/    $$$$/   $$$$/   $$$$$$$/ \r\n                                                                        \r\n                                                                        \r\n                                                                        \r\n");
+            System.Console.ReadLine();
+            System.Console.Clear();
+
             var aantalSpelers = 0;
 
-            while (aantalSpelers <= 0)
+            while (aantalSpelers <= 0 || aantalSpelers > 4)
             {
-                System.Console.WriteLine("Number of players:");
+                System.Console.Clear();
+                System.Console.WriteLine("Welcome to Cegekas Grand Roulette!");
+                System.Console.WriteLine();
+                System.Console.WriteLine("Number of players (1-4):");
                 Int32.TryParse(System.Console.ReadLine(), out aantalSpelers);
             }
 
             for (int i = 1; i <= aantalSpelers; i++)
             {
+                System.Console.Clear();
+                System.Console.WriteLine("Welcome to Cegekas Grand Roulette!");
+                System.Console.WriteLine();
                 System.Console.WriteLine($"Player {i} enter name: ");
                 var name = System.Console.ReadLine();
                 Game.AddPlayer(new Player(Game, START_CREDITS, name));
             }
 
             PlayTurn();
-            
         }
 
         private static void PlayTurn()
@@ -49,6 +58,7 @@ namespace Console
 
                 foreach (var player in Game.Players)
                 {
+                    ClearShowInfo();
                     System.Console.WriteLine($"{player.Name}, place your bets (Current credits: {player.TotalCredits}): ");
                     PlaceBet(player);
 
@@ -89,49 +99,50 @@ namespace Console
 
             while (!isDone)
             {
-                System.Console.WriteLine("Enter bet type:\nsingle, color, column, corner, dozen, even, five, half, line, split, street or done when you are ready");
+                ClearShowInfo();
+                System.Console.WriteLine("[1] Single\n[2] Color\n[3] Column\n[4] Corner\n[5] Dozen\n[6] Even\n[7] Five\n[8] Half\n[9] Line\n[10] Split\n[11] Street\n[0] Continue\nEnter bet type:");
                 var betType = System.Console.ReadLine();
 
                 switch (betType?.ToLower())
                 {
-                    case "single":
+                    case "1":
                         SingleBet(player, ref bet);
                         break;
-                    case "color":
+                    case "2":
                         ColorBet(player, ref bet);
                         break;
-                    case "column":
+                    case "3":
                         ColumnBet(player, ref bet);
                         break;
-                    case "corner":
+                    case "4":
                         CornerBet(player, ref bet);
                         break;
-                    case "dozen":
+                    case "5":
                         DozenBet(player, ref bet);
                         break;
-                    case "even":
+                    case "6":
                         EvenBet(player, ref bet);
                         break;
-                    case "five":
+                    case "7":
                         FiveBet(player, ref bet);
                         break;
-                    case "half":
+                    case "8":
                         HalfBet(player, ref bet);
                         break;
-                    case "line":
+                    case "9":
                         LineBet(player, ref bet);
                         break;
-                    case "split":
+                    case "10":
                         SplitBet(player, ref bet);
                         break;
-                    case "street":
+                    case "11":
                         StreetBet(player, ref bet);
                         break;
-                    case "done":
+                    case "0":
                         isDone = true;
                         break;
                     default:
-                        System.Console.WriteLine("Unknown input, try again!");
+                        System.Console.Clear();
                         break;
                 }
 
@@ -141,9 +152,16 @@ namespace Console
 
                 bet.Amount = amount;
 
-                System.Console.WriteLine(!Game.PlayerPlaceBet(player, bet)
-                    ? $"Placing bet for player {player.Name} failed!"
-                    : $"Placed bet for player {player.Name} (Current credits: {player.TotalCredits})!");
+                
+                if (!Game.PlayerPlaceBet(player, bet))
+                {
+                    ClearShowInfo();
+                    System.Console.WriteLine($"Placing bet for player {player.Name} failed!");
+                } else
+                {
+                    ClearShowInfo();
+                    System.Console.WriteLine($"Placed bet for player {player.Name} (Current credits: {player.TotalCredits})!");
+                }
             }
         }
 
@@ -316,6 +334,25 @@ namespace Console
         private static Tile GetTileByValue(string value)
         {
             return Game.Table.Tiles.FirstOrDefault(t => t.Value == value);
+        }
+
+        private static void ClearShowInfo()
+        {
+            System.Console.Clear();
+            System.Console.WriteLine($"==============Turn {Game.TurnHistory.Count}==============");
+            
+            foreach (var player in Game.Players)
+            {
+                System.Console.WriteLine($"{player.Name}: $ {player.TotalCredits}");
+            }
+
+            for (int i = 0; i < Game.TurnHistory.Count.ToString().Length; i++)
+            {
+                System.Console.Write("=");
+            }
+            System.Console.Write("=================================");
+            System.Console.WriteLine();
+            System.Console.WriteLine();
         }
     }
 }

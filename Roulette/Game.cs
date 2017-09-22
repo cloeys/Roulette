@@ -8,7 +8,7 @@ namespace Roulette
         public Table Table = new Table();
         public Turn CurrentTurn;
         public List<Player> Players= new List<Player>();
-        List<Turn> turnHistory = new List<Turn>();
+        public List<Turn> TurnHistory = new List<Turn>();
 
         public void AddPlayer(Player player)
         {
@@ -19,7 +19,7 @@ namespace Roulette
         public void StartTurn()
         {
             CurrentTurn = new Turn(this);
-            turnHistory.Add(CurrentTurn);
+            TurnHistory.Add(CurrentTurn);
         }
 
         public Tile SpinRoulette()
