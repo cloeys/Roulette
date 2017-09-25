@@ -20,5 +20,6 @@
         {
             return $"Single bet on tile {_tile.Value}";
         }
+
     }
 }

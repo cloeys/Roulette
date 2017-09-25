@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace Roulette
 {
-    public abstract class Bet
+    public abstract class Bet : ICloneable
     {
         public double Amount { get; set; }
         public Player Player;
@@ -48,6 +48,13 @@ namespace Roulette
         private bool IsWinner(Tile tile)
         {
             return Tiles.Contains(tile);
+        }
+
+        //public abstract object Clone();
+        public object Clone()
+        {
+            var clone = this.MemberwiseClone();
+            return clone;
         }
     }
 }

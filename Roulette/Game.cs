@@ -59,5 +59,18 @@ namespace Roulette
         {
             player.Strategy = strategy;
         }
+
+        public string RepeatBet(Player player)
+        {
+            var placing = "Replacing bets:\n";
+            var lastBetsForPlayer = TurnHistory[TurnHistory.Count - 2].Bets.Where(b => b.Player == player);
+            foreach (var bet in lastBetsForPlayer)
+            {
+                PlayerPlaceBet(player, (Bet) bet.Clone());
+                placing += bet.ToString() + "\n";
+            }
+
+            return placing;
+        }
     }
 }

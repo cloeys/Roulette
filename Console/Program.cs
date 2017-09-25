@@ -32,7 +32,7 @@ namespace Console
 
             var stakes = $" Turn {Game.TurnHistory.Count} ";
             System.Console.WriteLine(new string('=', aantalKarakters));
-            System.Console.WriteLine("||" + new string('-', aantalKarakters / 2 - stakes.Length / 2 - 2) + stakes + new string('-', aantalKarakters / 2 - stakes.Length / 2 - 2) + "||");
+            System.Console.WriteLine("||" + new string('-', aantalKarakters / 2 - stakes.Length / 2 - 2) + stakes + new string('-', aantalKarakters / 2 - stakes.Length / 2 - 2 + aantalKarakters%2 - stakes.Length%2) + "||");
             System.Console.WriteLine("||" + new string('=', aantalKarakters - 4) + "||");
 
             foreach (var player in Game.Players)
@@ -128,9 +128,11 @@ namespace Console
             var isDone = false;
             Bet bet = null;
             var error = "";
+            var repeatBet = false;
 
             while (!isDone)
             {
+                repeatBet = false;
                 ShowPlayerStack();
                 if (error != "")
                 {
@@ -138,7 +140,7 @@ namespace Console
                     error = "";
                 }
                 System.Console.WriteLine($"{player.Name}, place your bets (Current credits: {player.TotalCredits}): ");
-                System.Console.WriteLine("[1] Single\n[2] Color\n[3] Column\n[4] Corner\n[5] Dozen\n[6] Even\n[7] Five\n[8] Half\n[9] Line\n[10] Split\n[11] Street\n[0] Continue\n\nEnter bet type:");
+                System.Console.WriteLine("[1] Single\n[2] Color\n[3] Column\n[4] Corner\n[5] Dozen\n[6] Even\n[7] Five\n[8] Half\n[9] Line\n[10] Split\n[11] Street\n[12] Repeat bets from last game\n[0] Continue\n\nEnter bet type:");
                 var betType = System.Console.ReadLine();
 
                 switch (betType?.ToLower())
@@ -176,12 +178,22 @@ namespace Console
                     case "11":
                         StreetBet(player, ref bet);
                         break;
+                    case "12":
+                        repeatBet = true;
+                        break;
                     case "0":
                         isDone = true;
                         break;
                     default:
                         System.Console.Clear();
                         break;
+                }
+                if (repeatBet)
+                {
+                    var placed = Game.RepeatBet(player);
+                    System.Console.WriteLine(placed);
+                    //Thread.Sleep(5000);
+                    continue;
                 }
 
                 if (isDone || bet == null) continue;
@@ -204,6 +216,7 @@ namespace Console
                 }
             }
         }
+
 
         private static void SingleBet(Player player, ref Bet bet)
         {
