@@ -3,6 +3,7 @@ using System.IO;
 using System.Linq;
 using System.Net;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using Microsoft.SqlServer.Server;
 using Roulette;
@@ -93,13 +94,28 @@ namespace Console
                 Int32.TryParse(System.Console.ReadLine(), out aantalSpelers);
             }
 
-            for (int i = 1; i <= aantalSpelers; i++)
+            for (var i = 1; i <= aantalSpelers; i++)
             {
                 System.Console.Clear();
                 System.Console.WriteLine("Welcome to Cegekas Roulette!");
                 System.Console.WriteLine();
-                System.Console.WriteLine($"Player {i} enter name: ");
-                var name = System.Console.ReadLine();
+                var nameValid = false;
+                var name = "";
+                do
+                {
+                    System.Console.WriteLine($"Player {i} enter name: ");
+                    name = System.Console.ReadLine();
+                    if (Regex.IsMatch(name, @"^[a-zA-Z]+$"))
+                    {
+                        nameValid = true;
+                    }
+                    else
+                    {
+                        System.Console.WriteLine("Please enter a valid name! (not empty and only letters)");
+                    }
+
+                } while (!nameValid);
+                
                 Game.AddPlayer(new Player(Game, START_CREDITS, name));
             }
 
@@ -119,7 +135,7 @@ namespace Console
 
 
                 System.Console.Write("Spinning the wheel");
-                for (int i = 0; i < 3; i++)
+                for (var i = 0; i < 3; i++)
                 {
                     System.Console.Write(".");
                     Thread.Sleep(500);
@@ -150,12 +166,10 @@ namespace Console
         {
             var isDone = false;
             Bet bet = null;
-            var repeatBet = false;
 
             while (!isDone)
             {
-
-                repeatBet = false;
+                var repeatBet = false;
                 ShowPlayerStack();
 
                 System.Console.WriteLine($"{player.Name}, which bet do you want to place? ");
@@ -263,9 +277,6 @@ namespace Console
                     StrategyBetQuestion(player);
                     break;
             }
-
-
-
         }
 
         private static void SingleBet(Player player, ref Bet bet)
@@ -388,7 +399,7 @@ namespace Console
         {
             System.Console.WriteLine("Enter which number of row to bet on:");
             var value = System.Console.ReadLine();
-            if (Int32.TryParse(value, out int number) && number > 0 && number < 12)
+            if (int.TryParse(value, out var number) && number > 0 && number < 12)
             {
                 bet = new LineBet(player, number);
             }
@@ -421,7 +432,7 @@ namespace Console
         {
             System.Console.WriteLine("Enter which number of street to bet on:");
             var value = System.Console.ReadLine();
-            if (Int32.TryParse(value, out int number) && number > 0 && number < 11)
+            if (int.TryParse(value, out var number) && number > 0 && number < 11)
             {
                 bet = new StreetBet(player, number);
             }
@@ -435,24 +446,6 @@ namespace Console
         {
             return Game.Table.Tiles.FirstOrDefault(t => t.Value == value);
         }
-
-        private static void ClearShowInfo()
-        {
-            System.Console.Clear();
-            System.Console.WriteLine($"==============Turn {Game.TurnHistory.Count}==============");
-
-            foreach (var player in Game.Players)
-            {
-                System.Console.WriteLine($"{player.Name}: $ {player.TotalCredits}");
-            }
-
-            for (int i = 0; i < Game.TurnHistory.Count.ToString().Length; i++)
-            {
-                System.Console.Write("=");
-            }
-            System.Console.Write("=================================");
-            System.Console.WriteLine();
-            System.Console.WriteLine();
-        }
+        
     }
 }

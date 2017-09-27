@@ -63,7 +63,7 @@ namespace Roulette
 
         public string RepeatBet(Player player)
         {
-            var placing = "Replacing bet(s):\n";
+            const string placing = "Replacing bet(s):\n";
             var betStrings = "";
             var bets = new List<Bet>();
             try
@@ -73,14 +73,14 @@ namespace Roulette
                 {
                     bets.Add(bet);
                     betStrings += bet + "\n";
-                    //PlayerPlaceBet(player, (Bet)bet.Clone());
-                    //placing += bet.ToString() + "\n";
                 }
             }
-            catch (ArgumentOutOfRangeException e)
+            catch (ArgumentOutOfRangeException)
             {
                 return "No history to repeat bets";
             }
+
+            if (!bets.Any()) return "You didn't make any bets previous turn!";
 
             var sum = bets.Sum(bet => bet.Amount);
             if (sum > player.TotalCredits) return $"Insufficient funds to repeat bet(s):\n{betStrings}";
