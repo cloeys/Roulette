@@ -1,7 +1,10 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 using System.Threading;
+using Microsoft.SqlServer.Server;
 using Roulette;
 using Roulette.Bets;
 using Roulette.Enums;
@@ -13,6 +16,8 @@ namespace Console
     {
         private const double START_CREDITS = 1000;
         private const int MAX_PLAYERS = 4;
+        private static string _error;
+        private static string _message;
         public static Game Game;
 
         private static void Main(string[] args)
@@ -23,16 +28,13 @@ namespace Console
         private static void ShowPlayerStack()
         {
             System.Console.Clear();
-
-
-
             var longest = Game.Players.Max(p => p.Name.Length);
 
             int aantalKarakters = 50 + longest;
 
             var stakes = $" Turn {Game.TurnHistory.Count} ";
             System.Console.WriteLine(new string('=', aantalKarakters));
-            System.Console.WriteLine("||" + new string('-', aantalKarakters / 2 - stakes.Length / 2 - 2) + stakes + new string('-', aantalKarakters / 2 - stakes.Length / 2 - 2 + aantalKarakters%2 - stakes.Length%2) + "||");
+            System.Console.WriteLine("||" + new string('-', aantalKarakters / 2 - stakes.Length / 2 - 2) + stakes + new string('-', aantalKarakters / 2 - stakes.Length / 2 - 2 + aantalKarakters % 2 - stakes.Length % 2) + "||");
             System.Console.WriteLine("||" + new string('=', aantalKarakters - 4) + "||");
 
             foreach (var player in Game.Players)
@@ -47,7 +49,29 @@ namespace Console
 
 
             System.Console.WriteLine(new string('=', aantalKarakters));
+
+            WriteMessage();
+            WriteError();
+
             System.Console.WriteLine();
+        }
+
+        private static void WriteError()
+        {
+            if (!string.IsNullOrEmpty(_error))
+            {
+                System.Console.WriteLine($"\n Error: {_error}");
+                _error = "";
+            }
+        }
+
+        private static void WriteMessage()
+        {
+            if (!string.IsNullOrEmpty(_message))
+            {
+                System.Console.WriteLine($"\n {_message}");
+                _message = "";
+            }
         }
 
         private static void StartGame()
@@ -126,7 +150,6 @@ namespace Console
         {
             var isDone = false;
             Bet bet = null;
-            var error = "";
             var repeatBet = false;
 
             while (!isDone)
@@ -135,14 +158,7 @@ namespace Console
                 repeatBet = false;
                 ShowPlayerStack();
 
-
-                if (error != "")
-                {
-                    System.Console.WriteLine($"\n Error: {error}\n\n");
-                    error = "";
-                }
-
-		System.Console.WriteLine($"{player.Name}, which bet do you want to place? ");
+                System.Console.WriteLine($"{player.Name}, which bet do you want to place? ");
                 System.Console.WriteLine("[1] Single\n[2] Color\n[3] Column\n[4] Corner\n[5] Dozen\n[6] Even\n[7] Five\n[8] Half\n[9] Line\n[10] Split\n[11] Street\n[12] Repeat bets from last game\n[0] Continue\n\nEnter bet type:");
 
                 var betType = System.Console.ReadLine();
@@ -174,7 +190,7 @@ namespace Console
                         HalfBet(player, ref bet);
                         break;
                     case "9":
-                        error = LineBet(player, ref bet);
+                        LineBet(player, ref bet);
                         break;
                     case "10":
                         SplitBet(player, ref bet);
@@ -189,7 +205,7 @@ namespace Console
                         isDone = true;
                         break;
                     default:
-                        System.Console.Clear();
+                        _error = "Please enter a valid command";
                         break;
                 }
                 if (repeatBet)
@@ -200,22 +216,31 @@ namespace Console
                     continue;
                 }
 
-                if (isDone || bet == null) continue;
-                System.Console.WriteLine("Enter amount to bet:");
-                var amount = double.Parse(System.Console.ReadLine() ?? throw new InvalidOperationException());
+                if (isDone || bet == null || !string.IsNullOrEmpty(_error)) continue;
 
-                bet.Amount = amount;
+                var amountValid = false;
+                do
+                {
+                    System.Console.WriteLine("Enter amount to bet:");
+                    if (double.TryParse(System.Console.ReadLine(), out var amount))
+                    {
+                        bet.Amount = amount;
+                        amountValid = true;
+                    }
+                    else
+                    {
+                        System.Console.WriteLine("Please enter a valid amount!");
+                    }
+                } while (!amountValid);
 
 
                 if (!Game.PlayerPlaceBet(player, bet))
                 {
-                    ShowPlayerStack();
-                    System.Console.WriteLine($"Placing bet for player {player.Name} failed!");
+                    _error = $"Placing bet for player {player.Name} failed!";
                 }
                 else
                 {
-                    ShowPlayerStack();
-                    System.Console.WriteLine($"Placed bet for player {player.Name}!");
+                    _message = $"Placed bet for player {player.Name} ({bet})!";
                 }
             }
         }
@@ -225,23 +250,21 @@ namespace Console
             ShowPlayerStack();
             System.Console.WriteLine($"{player.Name}, how do you want to place a bet?\n[1] Bet\n[2] Strategy\n[0] Continue without bet\n\nEnter answer:");
             var answer = System.Console.ReadLine();
-            if (Int32.TryParse(answer, out int choice) && (choice == 1 || choice == 2 || choice == 0))
+            switch (answer)
             {
-                ShowPlayerStack();
-                switch (choice)
-                {
-                    case 1:
-                        PlaceBet(player);
-                        break;
-                    case 2:
-                        break;
-                    case 0:
-                        break;
-                    default:
-                        StrategyBetQuestion(player);
-                        break;
-                }
+                case "1":
+                    PlaceBet(player);
+                    break;
+                case "2":
+                    break;
+                case "0":
+                    break;
+                default:
+                    _error = "Please enter a valid command";
+                    StrategyBetQuestion(player);
+                    break;
             }
+
 
 
         }
@@ -257,7 +280,7 @@ namespace Console
             }
             else
             {
-                System.Console.WriteLine("Invalid tile, please try again!");
+                _error = "Invalid tile, please try again!";
             }
         }
 
@@ -271,7 +294,7 @@ namespace Console
             }
             else
             {
-                System.Console.WriteLine("Invalid color, please try black or red!");
+                _error = "Invalid color, please try black or red!";
             }
         }
 
@@ -286,7 +309,7 @@ namespace Console
             }
             else
             {
-                System.Console.WriteLine("Invalid column, please try 1, 2 or 3!");
+                _error = "Invalid column, please try 1, 2 or 3!";
             }
         }
 
@@ -303,12 +326,12 @@ namespace Console
                 }
                 catch (RouletteException r)
                 {
-                    System.Console.WriteLine(r.Message);
+                    _error = r.Message;
                 }
             }
             else
             {
-                System.Console.WriteLine("Invalid corner, please try again!");
+                _error = "Invalid corner, please try again!";
             }
         }
 
@@ -323,14 +346,14 @@ namespace Console
             }
             else
             {
-                System.Console.WriteLine("Invalid dozen, please try again!");
+                _error = "Invalid dozen, please try again!";
             }
         }
 
         private static void EvenBet(Player player, ref Bet bet)
         {
             System.Console.WriteLine("Enter even/odd to bet on:");
-            var value = System.Console.ReadLine();
+            var value = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(System.Console.ReadLine());
 
             if (Enum.TryParse(value, out Even even))
             {
@@ -338,7 +361,7 @@ namespace Console
             }
             else
             {
-                System.Console.WriteLine("Invalid entry, please try again!");
+                _error = "Invalid entry, please try again!";
             }
         }
 
@@ -350,7 +373,7 @@ namespace Console
         private static void HalfBet(Player player, ref Bet bet)
         {
             System.Console.WriteLine("Enter which half to bet on:");
-            var value = System.Console.ReadLine();
+            var value = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(System.Console.ReadLine());
 
             if (Enum.TryParse(value, out Half half))
             {
@@ -358,20 +381,19 @@ namespace Console
             }
             else
             {
-                System.Console.WriteLine("Invalid half, please try again!");
+                _error = "Invalid half, please try again!";
             }
         }
 
-        private static string LineBet(Player player, ref Bet bet)
+        private static void LineBet(Player player, ref Bet bet)
         {
             System.Console.WriteLine("Enter which number of row to bet on:");
             var value = System.Console.ReadLine();
             if (Int32.TryParse(value, out int number) && number > 0 && number < 12)
             {
                 bet = new LineBet(player, number);
-                return null;
             }
-            return "Invalid number of row, please try again!";
+            _error = "Invalid number of row, please try again!";
         }
 
         private static void SplitBet(Player player, ref Bet bet)
@@ -387,12 +409,12 @@ namespace Console
                 }
                 catch (RouletteException r)
                 {
-                    System.Console.WriteLine(r.Message);
+                    _error = r.Message;
                 }
             }
             else
             {
-                System.Console.WriteLine("Invalid split, please try again!");
+                _error = "Invalid split, please try again!";
             }
         }
 
@@ -406,7 +428,7 @@ namespace Console
             }
             else
             {
-                System.Console.WriteLine("Invalid number of street, please try again!");
+                _error = "Invalid number of street, please try again!";
             }
         }
 
