@@ -211,8 +211,7 @@ namespace Console
                 if (repeatBet)
                 {
                     var placed = Game.RepeatBet(player);
-                    System.Console.WriteLine(placed);
-                    //Thread.Sleep(5000);
+                    _message = placed;
                     continue;
                 }
 

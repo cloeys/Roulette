@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Roulette
@@ -7,7 +8,7 @@ namespace Roulette
     {
         public Table Table = new Table();
         public Turn CurrentTurn;
-        public List<Player> Players= new List<Player>();
+        public List<Player> Players = new List<Player>();
         public List<Turn> TurnHistory = new List<Turn>();
 
         public void AddPlayer(Player player)
@@ -62,15 +63,34 @@ namespace Roulette
 
         public string RepeatBet(Player player)
         {
-            var placing = "Replacing bets:\n";
-            var lastBetsForPlayer = TurnHistory[TurnHistory.Count - 2].Bets.Where(b => b.Player == player);
-            foreach (var bet in lastBetsForPlayer)
+            var placing = "Replacing bet(s):\n";
+            var betStrings = "";
+            var bets = new List<Bet>();
+            try
             {
-                PlayerPlaceBet(player, (Bet) bet.Clone());
-                placing += bet.ToString() + "\n";
+                var lastBetsForPlayer = TurnHistory[TurnHistory.Count - 2].Bets.Where(b => b.Player == player);
+                foreach (var bet in lastBetsForPlayer)
+                {
+                    bets.Add(bet);
+                    betStrings += bet + "\n";
+                    //PlayerPlaceBet(player, (Bet)bet.Clone());
+                    //placing += bet.ToString() + "\n";
+                }
+            }
+            catch (ArgumentOutOfRangeException e)
+            {
+                return "No history to repeat bets";
             }
 
-            return placing;
+            var sum = bets.Sum(bet => bet.Amount);
+            if (sum > player.TotalCredits) return $"Insufficient funds to repeat bet(s):\n{betStrings}";
+
+            foreach (var bet in bets)
+            {
+                PlayerPlaceBet(player, (Bet)bet.Clone());
+            }
+            return placing + betStrings;
+
         }
     }
 }
