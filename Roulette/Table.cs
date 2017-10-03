@@ -17,7 +17,7 @@ namespace Roulette
 
         private void CreateTilesList()
         {
-            Tiles = new List<Tile> {new Tile {Value = "0"}};
+            Tiles = new List<Tile> { new Tile { Value = "0" } };
 
             for (int numberOfBin = 1; numberOfBin < 37; numberOfBin++)
             {
@@ -32,15 +32,21 @@ namespace Roulette
                 var color = numberOfBin % 2 == mod ? "Red" : "Black";
 
 
-                Tiles.Add(new Tile{Value = numberOfBin.ToString(), Color = color});
+                Tiles.Add(new Tile { Value = numberOfBin.ToString(), Color = color });
             }
 
-            Tiles.Add(new Tile{Value = "00"});
+            Tiles.Add(new Tile { Value = "00" });
         }
 
         public Tile SpinRoulette()
         {
-            return Tiles[_roulette.SpinRoulette()];
+            var number = _roulette.SpinRoulette();
+            return GetWinningTile(number);
+        }
+
+        private Tile GetWinningTile(int number)
+        {
+            return Tiles[number];
         }
     }
 }
