@@ -26,7 +26,9 @@ namespace UnitTest.Bets
         [TestMethod]
         public void ToStringTest()
         {
-            Bet bet = new ColorBet(null, 0, "red");
+            Game game = new Game();
+            Player player = new Player(game, 200, "test");
+            Bet bet = new ColorBet(player, 0, "red");
 
             Assert.AreEqual("color bet on red", bet.ToString());
         }
