@@ -51,6 +51,7 @@
     <Compile Include="Bets\ColorBetTest.cs" />
     <Compile Include="BetTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TableTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
