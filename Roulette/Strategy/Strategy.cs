@@ -13,6 +13,8 @@ namespace Roulette
         public int AmountOfTurns { get; set; }
         public int CurrentTurn { get; set; }
 
+        protected Strategy() { }
+
         protected Strategy(Bet bet, int amountOfTurns)
         {
             Bet = bet;
@@ -20,19 +22,27 @@ namespace Roulette
             CurrentTurn = 0;
         }
 
-        public void ApplyStrategy()
+        public Bet ApplyStrategy()
         {
             if (CurrentTurn < AmountOfTurns)
             {
+                if (Bet.Player.TotalCredits < Bet.Amount)
+                {
+                    Bet.Player.Strategy = null;
+                    throw new RouletteException("Not enough credits to further apply strategy");
+                }
                 ExecuteStrategy();
                 CurrentTurn++;
+                return Bet;
             }
             else
             {
+                Bet.Player.Strategy = null;
                 throw new RouletteException("Strategy has expired");
             }
         }
 
         protected abstract void ExecuteStrategy();
+        
     }
 }

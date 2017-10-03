@@ -57,11 +57,11 @@
     <Compile Include="Enums\Half.cs" />
     <Compile Include="Enums\Even.cs" />
     <Compile Include="Game.cs" />
-    <Compile Include="MartingaleStrategy.cs" />
+    <Compile Include="Strategy\MartingaleStrategy.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Roulette.cs" />
-    <Compile Include="Strategy.cs" />
+    <Compile Include="Strategy\Strategy.cs" />
     <Compile Include="Table.cs" />
     <Compile Include="Tile.cs" />
     <Compile Include="Turn.cs" />
