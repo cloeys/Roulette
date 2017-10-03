@@ -400,9 +400,10 @@ namespace Console
         {
             System.Console.WriteLine("Enter column to bet on:");
             var value = System.Console.ReadLine()?.ToLower();
-
-            if (Enum.TryParse(value, out Column column))
+            
+            if (Enum.IsDefined(typeof(Column), int.Parse(value)))
             {
+                Column column = (Column)Enum.ToObject(typeof(Column), int.Parse(value));
                 bet = new ColumnBet(player, column);
             }
             else
@@ -438,8 +439,9 @@ namespace Console
             System.Console.WriteLine("Enter which number of dozen to bet on:");
             var value = System.Console.ReadLine();
 
-            if (Enum.TryParse(value, out Column column))
+            if(Enum.IsDefined(typeof(Column), int.Parse(value)))
             {
+                Column column = (Column)Enum.ToObject(typeof(Column), int.Parse(value));
                 bet = new DozenBet(player, column);
             }
             else

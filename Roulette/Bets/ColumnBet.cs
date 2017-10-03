@@ -1,4 +1,5 @@
-﻿using Roulette.Enums;
+﻿using System;
+using Roulette.Enums;
 
 namespace Roulette.Bets
 {
@@ -19,6 +20,7 @@ namespace Roulette.Bets
         public ColumnBet(Player player, double amount, Column column) : base(3, player, amount)
         {
             _column = column;
+            
 
             for (int i = (int)column; i < 37; i+=3)
             {
