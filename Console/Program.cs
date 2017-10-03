@@ -17,6 +17,8 @@ namespace Console
     {
         private const double START_CREDITS = 1000;
         private const int MAX_PLAYERS = 4;
+        private const int MINIMUM_BET = 0;
+        private const int TOTAL_LIMIT = 100;
         private static string _error;
         private static string _message;
         public static Game Game;
@@ -78,6 +80,8 @@ namespace Console
         private static void StartGame()
         {
             Game = new Game();
+            Game.Table.MinimumBet = MINIMUM_BET;
+            Game.Table.TotalLimit = TOTAL_LIMIT;
 
             System.Console.WriteLine("\r\n  ______                                 __                             \r\n /      \\                               /  |                            \r\n/$$$$$$  |  ______    ______    ______  $$ |   __   ______    _______   \r\n$$ |  $$/  /      \\  /      \\  /      \\ $$ |  /  | /      \\  /       |  \r\n$$ |      /$$$$$$  |/$$$$$$  |/$$$$$$  |$$ |_/$$/  $$$$$$  |/$$$$$$$/   \r\n$$ |   __ $$    $$ |$$ |  $$ |$$    $$ |$$   $$<   /    $$ |$$      \\   \r\n$$ \\__/  |$$$$$$$$/ $$ \\__$$ |$$$$$$$$/ $$$$$$  \\ /$$$$$$$ | $$$$$$  |  \r\n$$    $$/ $$       |$$    $$ |$$       |$$ | $$  |$$    $$ |/     $$/   \r\n $$$$$$/   $$$$$$$/  $$$$$$$ | $$$$$$$/ $$/   $$/  $$$$$$$/ $$$$$$$/    \r\n                    /  \\__$$ |                                          \r\n                    $$    $$/                                           \r\n                     $$$$$$/                                            \r\n _______                       __              __      __               \r\n/       \\                     /  |            /  |    /  |              \r\n$$$$$$$  |  ______   __    __ $$ |  ______   _$$ |_  _$$ |_     ______  \r\n$$ |__$$ | /      \\ /  |  /  |$$ | /      \\ / $$   |/ $$   |   /      \\ \r\n$$    $$< /$$$$$$  |$$ |  $$ |$$ |/$$$$$$  |$$$$$$/ $$$$$$/   /$$$$$$  |\r\n$$$$$$$  |$$ |  $$ |$$ |  $$ |$$ |$$    $$ |  $$ | __ $$ | __ $$    $$ |\r\n$$ |  $$ |$$ \\__$$ |$$ \\__$$ |$$ |$$$$$$$$/   $$ |/  |$$ |/  |$$$$$$$$/ \r\n$$ |  $$ |$$    $$/ $$    $$/ $$ |$$       |  $$  $$/ $$  $$/ $$       |\r\n$$/   $$/  $$$$$$/   $$$$$$/  $$/  $$$$$$$/    $$$$/   $$$$/   $$$$$$$/ \r\n                                                                        \r\n                                                                        \r\n                                                                        \r\n");
             System.Console.ReadLine();
@@ -275,12 +279,10 @@ namespace Console
                     }
                 } while (!amountValid);
 
-                if (!Game.PlayerPlaceBet(player, bet))
+                try
                 {
-                    _error = $"Placing bet for player {player.Name} failed!";
-                }
-                else
-                {
+                    Game.PlayerPlaceBet(player, bet);
+
                     if (player.Strategy != null)
                     {
                         player.Strategy.Bet = bet;
@@ -292,6 +294,10 @@ namespace Console
                     {
                         _message = $"Placed bet for player {player.Name} ({bet})!";
                     }
+                }
+                catch (RouletteException e)
+                {
+                    _error = e.Message;
                 }
             }
         }

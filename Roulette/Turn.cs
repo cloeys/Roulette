@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using Roulette.Exceptions;
+using System.Collections.Generic;
 using System.Linq;
 
 namespace Roulette
@@ -24,7 +25,7 @@ namespace Roulette
 
         public void PlayTurn()
         {
-            if (ArePlayersReady().Any()) return;
+            if (ArePlayersReady().Any()) throw new RouletteException("There was a player that bet too much");
             WinningTile = _game.Table.SpinRoulette();
             CalculatePlayerPayout();
 
@@ -41,7 +42,7 @@ namespace Roulette
             {
                 double total = Bets.Where(b => b.Player == player).ToList().Sum(bet => bet.Amount);
 
-                if (total < _game.Table.MinimumBet)
+                if (total > _game.Table.TotalLimit)
                 {
                     notReady.Add(player);
                 }
