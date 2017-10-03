@@ -30,7 +30,7 @@ namespace Roulette.Bets
 
         public override string ToString()
         {
-            return $"Column bet on {_column.ToString().ToLower()} column";
+            return $"Column bet on {_column.ToString().ToLower()} column for $ {Amount}";
         }
     }
 }

@@ -18,7 +18,7 @@
 
         public override string ToString()
         {
-            return $"Single bet on tile {_tile.Value}";
+            return $"Single bet on tile {_tile.Value} for $ {Amount}";
         }
 
     }

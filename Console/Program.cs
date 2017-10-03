@@ -267,7 +267,9 @@ namespace Console
                 var amountValid = false;
                 do
                 {
-                    System.Console.WriteLine("Enter amount to bet:");
+                    var total = Game.CurrentTurn.Bets.Where(b => b.Player == player).ToList().Sum(b => b.Amount);
+
+                    System.Console.WriteLine($"Enter amount to bet (MIN: {Game.Table.MinimumBet} MAX: {Game.Table.TotalLimit - total}):");
                     if (double.TryParse(System.Console.ReadLine(), out var amount))
                     {
                         bet.Amount = amount;
@@ -375,7 +377,7 @@ namespace Console
 
         private static void SingleBet(Player player, ref Bet bet)
         {
-            System.Console.WriteLine("Enter tile to bet on:");
+            System.Console.WriteLine("Enter tile to bet on [00, 0-36]:");
             var value = System.Console.ReadLine();
             var tile = GetTileByValue(value);
             if (tile != null)
@@ -384,37 +386,47 @@ namespace Console
             }
             else
             {
-                _error = "Invalid tile, please try again!";
+                _error = "Invalid tile, please enter valid tile number!";
             }
         }
 
         private static void ColorBet(Player player, ref Bet bet)
         {
             System.Console.WriteLine("Enter color to bet on:");
+            System.Console.WriteLine("[1] Red");
+            System.Console.WriteLine("[2] Black");
             var value = System.Console.ReadLine()?.ToLower();
-            if (value == "red" || value == "black")
+            switch (value)
             {
-                bet = new ColorBet(player, value);
-            }
-            else
-            {
-                _error = "Invalid color, please try black or red!";
+                case "1":
+                    bet = new ColorBet(player, "red");
+                    break;
+                case "2":
+                    bet = new ColorBet(player, "black");
+                    break;
+                default:
+                    _error = "Invalid color, please try [1] for Red or [2] for Black!";
+                    break;
             }
         }
 
         private static void ColumnBet(Player player, ref Bet bet)
         {
             System.Console.WriteLine("Enter column to bet on:");
+            System.Console.WriteLine("[1] First");
+            System.Console.WriteLine("[2] Second");
+            System.Console.WriteLine("[3] Third");
             var value = System.Console.ReadLine()?.ToLower();
-            
-            if (Enum.IsDefined(typeof(Column), int.Parse(value)))
+            int valueInt;
+
+            if (Int32.TryParse(value, out valueInt) && Enum.IsDefined(typeof(Column), valueInt))
             {
-                Column column = (Column)Enum.ToObject(typeof(Column), int.Parse(value));
+                Column column = (Column)Enum.ToObject(typeof(Column), valueInt);
                 bet = new ColumnBet(player, column);
             }
             else
             {
-                _error = "Invalid column, please try 1, 2 or 3!";
+                _error = "Invalid column, please try [1], [2] or [3]!";
             }
         }
 

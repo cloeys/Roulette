@@ -20,7 +20,7 @@ namespace Roulette.Bets
 
         public override string ToString()
         {
-            return $"color bet on {_color}";
+            return $"Color bet on {_color} for $ {Amount}";
         }
     }
 }
