@@ -174,15 +174,15 @@ namespace Console
                     Thread.Sleep(500);
                 }
                 Game.PlayTurn();
-                System.Console.WriteLine();
+                System.Console.WriteLine("\n\n");
                 System.Console.WriteLine($"The winning number is {Game.CurrentTurn.WinningTile.Color} {Game.CurrentTurn.WinningTile.Value}!");
 
                 foreach (var player in Game.Players)
                 {
-                    System.Console.WriteLine(Game.GetResultsPlayer(player));
+                    System.Console.WriteLine("\n" + Game.GetResultsPlayer(player));
                 }
 
-                System.Console.WriteLine("Press enter to continue, 'exit' to quit");
+                System.Console.WriteLine("\n\n\nPress enter to continue, 'exit' to quit");
                 switch (System.Console.ReadLine())
                 {
                     case "exit":
