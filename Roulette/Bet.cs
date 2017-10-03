@@ -8,7 +8,7 @@ namespace Roulette
         public double Amount { get; set; }
         public Player Player;
         public IList<Tile> Tiles = new List<Tile>();
-        public double WinAmount { get; private set; }
+        public double WinAmount { get; set; }
         public bool HasWon { get; set; }
 
         protected readonly double PayoutRate;

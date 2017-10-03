@@ -115,7 +115,7 @@ namespace Console
                     }
 
                 } while (!nameValid);
-                
+
                 Game.AddPlayer(new Player(Game, START_CREDITS, name));
             }
 
@@ -130,9 +130,38 @@ namespace Console
 
                 foreach (var player in Game.Players)
                 {
-                    StrategyBetQuestion(player);
+                    if (player.Strategy != null)
+                    {
+                        try
+                        {
+                            var bet = player.Strategy.ApplyStrategy();
+                            ShowPlayerStack();
+                            System.Console.WriteLine($"Current strategy is active: {player.Strategy}\nDo you want to continue with this strategy? (enter \"no\" to cancel, anything to continue)");
+                            var proceed = System.Console.ReadLine();
+                            if (proceed != null && proceed.Equals("no"))
+                            {
+                                player.Strategy = null;
+                                StrategyBetQuestion(player);
+                            }
+                            else
+                            {
+                                Game.PlayerPlaceBet(player, bet);
+                                System.Console.ReadLine();
+                            }
+                        }
+                        catch (RouletteException e)
+                        {
+                            _message = e.Message;
+                            StrategyBetQuestion(player);
+                        }
+                    }
+                    else
+                    {
+                        StrategyBetQuestion(player);
+                    }
                 }
 
+                ShowPlayerStack();
 
                 System.Console.Write("Spinning the wheel");
                 for (var i = 0; i < 3; i++)
@@ -246,14 +275,23 @@ namespace Console
                     }
                 } while (!amountValid);
 
-
                 if (!Game.PlayerPlaceBet(player, bet))
                 {
                     _error = $"Placing bet for player {player.Name} failed!";
                 }
                 else
                 {
-                    _message = $"Placed bet for player {player.Name} ({bet})!";
+                    if (player.Strategy != null)
+                    {
+                        player.Strategy.Bet = bet;
+                        player.Strategy.CurrentTurn++;
+                        _message = $"Placed bet {bet} on current strategy for player {player.Name}";
+                        isDone = true;
+                    }
+                    else
+                    {
+                        _message = $"Placed bet for player {player.Name} ({bet})!";
+                    }
                 }
             }
         }
@@ -269,6 +307,7 @@ namespace Console
                     PlaceBet(player);
                     break;
                 case "2":
+                    CreateStrategy(player);
                     break;
                 case "0":
                     break;
@@ -277,6 +316,55 @@ namespace Console
                     StrategyBetQuestion(player);
                     break;
             }
+        }
+
+        private static void CreateStrategy(Player player)
+        {
+            ShowPlayerStack();
+            Strategy strategy = null;
+            System.Console.WriteLine($"What kind of strategy do you want to use?\n[1] Martingale\n[2] Bet without strategy\n[0] Return to previous menu");
+            var answer = System.Console.ReadLine();
+            switch (answer)
+            {
+                case "1":
+                    strategy = new MartingaleStrategy();
+                    break;
+                case "2":
+                    PlaceBet(player);
+                    break;
+                case "0":
+                    StrategyBetQuestion(player);
+                    break;
+                default:
+                    _error = "Please enter a valid command";
+                    CreateStrategy(player);
+                    break;
+            }
+
+            if (strategy != null)
+            {
+                AssignStrategyToPlayer(player, strategy);
+            }
+        }
+
+        private static void AssignStrategyToPlayer(Player player, Strategy strategy)
+        {
+            var amountValid = false;
+            do
+            {
+                System.Console.WriteLine("Enter amount of turns to use the bet:");
+                if (int.TryParse(System.Console.ReadLine(), out var amount))
+                {
+                    strategy.AmountOfTurns = amount;
+                    amountValid = true;
+                }
+                else
+                {
+                    System.Console.WriteLine("Please enter a valid amount!");
+                }
+            } while (!amountValid);
+            player.Strategy = strategy;
+            PlaceBet(player);
         }
 
         private static void SingleBet(Player player, ref Bet bet)
@@ -403,7 +491,10 @@ namespace Console
             {
                 bet = new LineBet(player, number);
             }
-            _error = "Invalid number of row, please try again!";
+            else
+            {
+                _error = "Invalid number of row, please try again!";
+            }    
         }
 
         private static void SplitBet(Player player, ref Bet bet)
@@ -446,6 +537,6 @@ namespace Console
         {
             return Game.Table.Tiles.FirstOrDefault(t => t.Value == value);
         }
-        
+
     }
 }

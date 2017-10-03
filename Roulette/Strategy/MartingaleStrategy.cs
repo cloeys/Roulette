@@ -6,10 +6,12 @@ using System.Threading.Tasks;
 
 namespace Roulette
 {
-    class MartingaleStrategy : Strategy
+    public class MartingaleStrategy : Strategy
     {
 
         public double OriginalAmount { get; set; } 
+
+        public MartingaleStrategy() { }
 
         public MartingaleStrategy(Bet bet, int amountOfTurns) : base(bet, amountOfTurns)
         {
@@ -26,6 +28,11 @@ namespace Roulette
             {
                 Bet.Amount = OriginalAmount;
             }
+        }
+
+        public override string ToString()
+        {
+            return $"Martingale Strategy: {Bet}, for {Bet.Amount} credits, turn {CurrentTurn}/{AmountOfTurns}";
         }
     }
 }
