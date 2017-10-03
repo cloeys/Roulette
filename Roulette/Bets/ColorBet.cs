@@ -10,7 +10,6 @@ namespace Roulette.Bets
 
         public ColorBet(Player player, string color) : this(player, 0, color)
         {
-            
         }
 
         public ColorBet(Player player, double amount, string color) : base(2, player, amount)

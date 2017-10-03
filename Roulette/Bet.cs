@@ -50,7 +50,6 @@ namespace Roulette
             return Tiles.Contains(tile);
         }
 
-        //public abstract object Clone();
         public object Clone()
         {
             var clone = this.MemberwiseClone();
