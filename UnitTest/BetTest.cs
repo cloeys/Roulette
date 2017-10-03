@@ -33,5 +33,28 @@ namespace UnitTest
             Assert.AreEqual(0, winAmount);
         }
 
+        [TestMethod]
+        public void HasWon_get_false()
+        {
+            Bet bet = new SingleBet(null, 0, null);
+            Assert.AreEqual(false, bet.HasWon);
+        }
+
+        [TestMethod]
+        public void HasWon_setget_true()
+        {
+            Bet bet = new SingleBet(null, 0, null);
+            bet.HasWon = true;
+            Assert.AreEqual(true, bet.HasWon);
+        }
+
+        [TestMethod]
+        public void Clone_clone_success()
+        {
+            Bet bet = new SingleBet(null, 0, null);
+            var clonedBet = bet.Clone();
+
+            Assert.AreNotSame(bet, clonedBet);
+        }
     }
 }

@@ -22,5 +22,13 @@ namespace UnitTest.Bets
 
             Assert.AreEqual(18, bet.Tiles.Count);
         }
+
+        [TestMethod]
+        public void ToStringTest()
+        {
+            Bet bet = new ColorBet(null, 0, "red");
+
+            Assert.AreEqual("color bet on red", bet.ToString());
+        }
     }
 }
