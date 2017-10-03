@@ -12,6 +12,7 @@ namespace Roulette
         public Bet Bet { get; set; }
         public int AmountOfTurns { get; set; }
         public int CurrentTurn { get; set; }
+        public double OriginalAmount { get; set; }
 
         protected Strategy() { }
 
