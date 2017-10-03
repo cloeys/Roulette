@@ -149,8 +149,8 @@ namespace Console
                             }
                             else
                             {
+                                
                                 Game.PlayerPlaceBet(player, bet);
-                                System.Console.ReadLine();
                             }
                         }
                         catch (RouletteException e)
@@ -285,6 +285,7 @@ namespace Console
 
                     if (player.Strategy != null)
                     {
+                        player.Strategy.OriginalAmount = bet.Amount;
                         player.Strategy.Bet = bet;
                         player.Strategy.CurrentTurn++;
                         _message = $"Placed bet {bet} on current strategy for player {player.Name}";

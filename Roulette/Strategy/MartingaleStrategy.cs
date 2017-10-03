@@ -9,15 +9,6 @@ namespace Roulette
     public class MartingaleStrategy : Strategy
     {
 
-        public double OriginalAmount { get; set; } 
-
-        public MartingaleStrategy() { }
-
-        public MartingaleStrategy(Bet bet, int amountOfTurns) : base(bet, amountOfTurns)
-        {
-            OriginalAmount = bet.Amount;
-        }
-
         protected override void ExecuteStrategy()
         {
             if (!Bet.HasWon)
@@ -27,6 +18,8 @@ namespace Roulette
             else
             {
                 Bet.Amount = OriginalAmount;
+                Bet.WinAmount = 0;
+                Bet.HasWon = false;
             }
         }
 
