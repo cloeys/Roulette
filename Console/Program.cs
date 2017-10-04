@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -66,7 +67,7 @@ namespace Console
             {
                 var d = Flogger.GetFlogDetail(_error, null);
                 Flogger.WriteError(d);
-                System.Console.WriteLine($"\n Error: {_error}");
+                WriteColor($"\n Error: {_error}", ConsoleColor.DarkRed);
                 _error = "";
             }
         }
@@ -77,9 +78,16 @@ namespace Console
             {
                 var d = Flogger.GetFlogDetail(_message, null);
                 Flogger.WriteDiagnostic(d);
-                System.Console.WriteLine($"\n {_message}");
+                WriteColor($"\n {_message}", ConsoleColor.DarkGreen);
                 _message = "";
             }
+        }
+
+        private static void WriteColor(string text, ConsoleColor consoleColor)
+        {
+            System.Console.ForegroundColor = consoleColor;
+            System.Console.WriteLine(text);
+            System.Console.ForegroundColor = ConsoleColor.DarkCyan;
         }
 
         private static void StartGame()
@@ -88,8 +96,22 @@ namespace Console
             Game.Table.MinimumBet = MINIMUM_BET;
             Game.Table.TotalLimit = TOTAL_LIMIT;
 
-            System.Console.WriteLine("\r\n  ______                                 __                             \r\n /      \\                               /  |                            \r\n/$$$$$$  |  ______    ______    ______  $$ |   __   ______    _______   \r\n$$ |  $$/  /      \\  /      \\  /      \\ $$ |  /  | /      \\  /       |  \r\n$$ |      /$$$$$$  |/$$$$$$  |/$$$$$$  |$$ |_/$$/  $$$$$$  |/$$$$$$$/   \r\n$$ |   __ $$    $$ |$$ |  $$ |$$    $$ |$$   $$<   /    $$ |$$      \\   \r\n$$ \\__/  |$$$$$$$$/ $$ \\__$$ |$$$$$$$$/ $$$$$$  \\ /$$$$$$$ | $$$$$$  |  \r\n$$    $$/ $$       |$$    $$ |$$       |$$ | $$  |$$    $$ |/     $$/   \r\n $$$$$$/   $$$$$$$/  $$$$$$$ | $$$$$$$/ $$/   $$/  $$$$$$$/ $$$$$$$/    \r\n                    /  \\__$$ |                                          \r\n                    $$    $$/                                           \r\n                     $$$$$$/                                            \r\n _______                       __              __      __               \r\n/       \\                     /  |            /  |    /  |              \r\n$$$$$$$  |  ______   __    __ $$ |  ______   _$$ |_  _$$ |_     ______  \r\n$$ |__$$ | /      \\ /  |  /  |$$ | /      \\ / $$   |/ $$   |   /      \\ \r\n$$    $$< /$$$$$$  |$$ |  $$ |$$ |/$$$$$$  |$$$$$$/ $$$$$$/   /$$$$$$  |\r\n$$$$$$$  |$$ |  $$ |$$ |  $$ |$$ |$$    $$ |  $$ | __ $$ | __ $$    $$ |\r\n$$ |  $$ |$$ \\__$$ |$$ \\__$$ |$$ |$$$$$$$$/   $$ |/  |$$ |/  |$$$$$$$$/ \r\n$$ |  $$ |$$    $$/ $$    $$/ $$ |$$       |  $$  $$/ $$  $$/ $$       |\r\n$$/   $$/  $$$$$$/   $$$$$$/  $$/  $$$$$$$/    $$$$/   $$$$/   $$$$$$$/ \r\n                                                                        \r\n                                                                        \r\n                                                                        \r\n");
+            System.Console.BackgroundColor = ConsoleColor.DarkCyan;
+            System.Console.ForegroundColor = ConsoleColor.White;
+            System.Console.Clear();
+
+            System.Console.WriteLine("\r\n\t  ______                                 __                             \r\n\t /      \\                               /  |                            \r\n\t/$$$$$$  |  ______    ______    ______  $$ |   __   ______    _______   \r\n\t$$ |  $$/  /      \\  /      \\  /      \\ $$ |  /  | /      \\  /       |  \r\n\t$$ |      /$$$$$$  |/$$$$$$  |/$$$$$$  |$$ |_/$$/  $$$$$$  |/$$$$$$$/   \r\n\t$$ |   __ $$    $$ |$$ |  $$ |$$    $$ |$$   $$<   /    $$ |$$      \\   \r\n\t$$ \\__/  |$$$$$$$$/ $$ \\__$$ |$$$$$$$$/ $$$$$$  \\ /$$$$$$$ | $$$$$$  |  \r\n\t$$    $$/ $$       |$$    $$ |$$       |$$ | $$  |$$    $$ |/     $$/   \r\n\t $$$$$$/   $$$$$$$/  $$$$$$$ | $$$$$$$/ $$/   $$/  $$$$$$$/ $$$$$$$/    \r\n\t                    /  \\__$$ |                                          \r\n\t                    $$    $$/                                           \r\n\t                     $$$$$$/                                            \r\n\t _______                       __              __      __               \r\n\t/       \\                     /  |            /  |    /  |              \r\n\t$$$$$$$  |  ______   __    __ $$ |  ______   _$$ |_  _$$ |_     ______  \r\n\t$$ |__$$ | /      \\ /  |  /  |$$ | /      \\ / $$   |/ $$   |   /      \\ \r\n\t$$    $$< /$$$$$$  |$$ |  $$ |$$ |/$$$$$$  |$$$$$$/ $$$$$$/   /$$$$$$  |\r\n\t$$$$$$$  |$$ |  $$ |$$ |  $$ |$$ |$$    $$ |  $$ | __ $$ | __ $$    $$ |\r\n\t$$ |  $$ |$$ \\__$$ |$$ \\__$$ |$$ |$$$$$$$$/   $$ |/  |$$ |/  |$$$$$$$$/ \r\n\t$$ |  $$ |$$    $$/ $$    $$/ $$ |$$       |  $$  $$/ $$  $$/ $$       |\r\n\t$$/   $$/  $$$$$$/   $$$$$$/  $$/  $$$$$$$/    $$$$/   $$$$/   $$$$$$$/ \r\n\t                                                                        \r\n\t                                                                        \r\n\t                                                                        \r\n\t");
             System.Console.ReadLine();
+            System.Console.Clear();
+
+            System.Console.WriteLine();
+            System.Console.WriteLine("\tPowered by");
+            System.Console.WriteLine("                                                                                                              \r\n                                                                                                             \r\n                                                                                                             \r\n                                                                                                             \r\n                                                                                                             \r\n                        .,,,,,,,,,,                                                                          \r\n             .*,     .,,,,,,,,,,,,,,*                                                                        \r\n           ,(*     .,,,,,,.      .,*(*                                                                       \r\n          *(*     .,,,,.           *((                                            ((                         \r\n        ./(*     .,,.             .//(.                                           ((                         \r\n       .((/      ,,              .////.      ,(####.  /###(.   ,(###(#(  *####/   ((   ((  ,(####*           \r\n      ./((,      ,              ,////*      /#,     .#/   /#. *%,   *%, (#   ,(#  (( /#,        *#,          \r\n      *(((.                   ,//////.      (#      *##(((##, ,#/. .## .##((((##. (###.    /#(((##,          \r\n      /(((.                 ,///////.       *#*     .#(       ,(,,,.    (#.       (( *#/  ,%*   *#,          \r\n      ((((*              .*////////          ./(##/   *(##(,  .(######.  .(##(/.  //   /#, .(##(,((.         \r\n      (%#((,         .,//////////,                           ,((    .#/                                      \r\n      .%%%%%/,,,,,*/////////////.                             *#(//(#(                                       \r\n       .#%%%%%#(/////////////.                                                                               \r\n         ,#%%%%%%%#(((/((/.                                                                                  \r\n             ,//(((//,.                                                                                      \r\n                                                                                                             ");
+            System.Console.ReadLine();
+            System.Console.Clear();
+
+            System.Console.BackgroundColor = ConsoleColor.White;
+            System.Console.ForegroundColor = ConsoleColor.DarkCyan;
             System.Console.Clear();
 
             var aantalSpelers = 0;
@@ -145,16 +167,18 @@ namespace Console
                         {
                             var bet = player.Strategy.ApplyStrategy();
                             ShowPlayerStack();
-                            System.Console.WriteLine($"Current strategy is active: {player.Strategy}\nDo you want to continue with this strategy? (enter \"no\" to cancel, anything to continue)");
+                            System.Console.WriteLine($"Current strategy is active: \n{player.Strategy}");
+                            System.Console.WriteLine();
+                            System.Console.WriteLine();
+                            System.Console.WriteLine("Press enter to continue with strategy, 'exit' to cancel");
                             var proceed = System.Console.ReadLine();
-                            if (proceed != null && proceed.Equals("no"))
+                            if (proceed != null && proceed.Equals("exit"))
                             {
                                 player.Strategy = null;
                                 StrategyBetQuestion(player);
                             }
                             else
                             {
-                                
                                 Game.PlayerPlaceBet(player, bet);
                             }
                         }
@@ -180,11 +204,11 @@ namespace Console
                 }
                 Game.PlayTurn();
                 System.Console.WriteLine("\n\n");
-                System.Console.WriteLine($"The winning number is {Game.CurrentTurn.WinningTile.Color} {Game.CurrentTurn.WinningTile.Value}!");
+                WriteColor($"The winning number is {Game.CurrentTurn.WinningTile.Color} {Game.CurrentTurn.WinningTile.Value}!", ConsoleColor.Blue);
 
                 foreach (var player in Game.Players)
                 {
-                    System.Console.WriteLine("\n" + Game.GetResultsPlayer(player));
+                    WriteColor("\n" + Game.GetResultsPlayer(player),ConsoleColor.Magenta);
                 }
 
                 System.Console.WriteLine("\n\n\nPress enter to continue, 'exit' to quit");
@@ -211,7 +235,7 @@ namespace Console
                 ShowPlayerStack();
 
                 System.Console.WriteLine($"{player.Name}, which bet do you want to place? ");
-                System.Console.WriteLine("[1] Single\n[2] Color\n[3] Column\n[4] Corner\n[5] Dozen\n[6] Even\n[7] Five\n[8] Half\n[9] Line\n[10] Split\n[11] Street\n[12] Repeat bets from last game\n[0] Continue\n\nEnter bet type:");
+                System.Console.WriteLine("[ 1] Single\n[ 2] Color\n[ 3] Column\n[ 4] Corner\n[ 5] Dozen\n[ 6] Even\n[ 7] Five\n[ 8] Half\n[ 9] Line\n[10] Split\n[11] Street\n[12] Repeat bets from last game\n[ 0] Continue\n\nEnter bet type:");
 
                 var betType = System.Console.ReadLine();
 
@@ -262,9 +286,18 @@ namespace Console
                 }
                 if (repeatBet)
                 {
-                    var placed = Game.RepeatBet(player);
-                    _message = placed;
-                    continue;
+                    try
+                    {
+
+                        var placed = Game.RepeatBet(player);
+                        _message = placed;
+                        continue;
+                    }
+                    catch (RouletteException e)
+                    {
+                        _error = e.Message;
+                    }
+                    
                 }
 
                 if (isDone || bet == null || !string.IsNullOrEmpty(_error)) continue;
@@ -438,7 +471,7 @@ namespace Console
 
         private static void CornerBet(Player player, ref Bet bet)
         {
-            System.Console.WriteLine("Enter corner numbers to bet on:");
+            System.Console.WriteLine("Enter corner numbers to bet on [1-36] [1-36] [1-36] [1-36]:");
             var value = System.Console.ReadLine()?.ToLower().Split(null);
 
             if (value?.Length == 4)
@@ -461,26 +494,34 @@ namespace Console
         private static void DozenBet(Player player, ref Bet bet)
         {
             System.Console.WriteLine("Enter which number of dozen to bet on:");
+            System.Console.WriteLine("[1] First");
+            System.Console.WriteLine("[2] Second");
+            System.Console.WriteLine("[3] Third");
             var value = System.Console.ReadLine();
+            int valueInt;
 
-            if(Enum.IsDefined(typeof(Column), int.Parse(value)))
+            if (Int32.TryParse(value, out valueInt) && Enum.IsDefined(typeof(Column), valueInt))
             {
-                Column column = (Column)Enum.ToObject(typeof(Column), int.Parse(value));
+                Column column = (Column)Enum.ToObject(typeof(Column), valueInt);
                 bet = new DozenBet(player, column);
             }
             else
             {
-                _error = "Invalid dozen, please try again!";
+                _error = "Invalid dozen, please try [1], [2] or [3]!";
             }
         }
 
         private static void EvenBet(Player player, ref Bet bet)
         {
             System.Console.WriteLine("Enter even/odd to bet on:");
+            System.Console.WriteLine("[1] Even");
+            System.Console.WriteLine("[2] Odd");
             var value = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(System.Console.ReadLine());
+            int valueInt;
 
-            if (Enum.TryParse(value, out Even even))
+            if (Int32.TryParse(value, out valueInt) && Enum.IsDefined(typeof(Even), valueInt))
             {
+                Even even = (Even)Enum.ToObject(typeof(Even), valueInt);
                 bet = new EvenBet(player, even);
             }
             else
@@ -497,6 +538,8 @@ namespace Console
         private static void HalfBet(Player player, ref Bet bet)
         {
             System.Console.WriteLine("Enter which half to bet on:");
+            System.Console.WriteLine("[1] First");
+            System.Console.WriteLine("[2] Second");
             var value = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(System.Console.ReadLine());
 
             if (Enum.TryParse(value, out Half half))
@@ -511,7 +554,7 @@ namespace Console
 
         private static void LineBet(Player player, ref Bet bet)
         {
-            System.Console.WriteLine("Enter which number of row to bet on:");
+            System.Console.WriteLine("Enter first row number of two rows to bet on [1-11]:");
             var value = System.Console.ReadLine();
             if (int.TryParse(value, out var number) && number > 0 && number < 12)
             {
@@ -525,7 +568,7 @@ namespace Console
 
         private static void SplitBet(Player player, ref Bet bet)
         {
-            System.Console.WriteLine("Enter split numbers to bet on:");
+            System.Console.WriteLine("Enter split numbers to bet on [1-36] [1-36]:");
             var value = System.Console.ReadLine()?.ToLower().Split(null);
 
             if (value?.Length == 2)
@@ -547,9 +590,9 @@ namespace Console
 
         private static void StreetBet(Player player, ref Bet bet)
         {
-            System.Console.WriteLine("Enter which number of street to bet on:");
+            System.Console.WriteLine("Enter which number of street to bet on [1-12]:");
             var value = System.Console.ReadLine();
-            if (int.TryParse(value, out var number) && number > 0 && number < 11)
+            if (int.TryParse(value, out var number) && number > 0 && number <= 12)
             {
                 bet = new StreetBet(player, number);
             }

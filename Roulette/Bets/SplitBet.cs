@@ -24,7 +24,7 @@ namespace Roulette.Bets
             }
             else
             {
-                throw new RouletteException("No split between the given tiles");
+                throw new RouletteException($"No split between the given tiles {_first} and {_second}");
             }
         }
 

@@ -46,9 +46,9 @@ namespace Roulette
                 return $"{player.Name} didn't win anything this turn!";
             }
 
-            string text = $"{player.Name}: ";
+            string text = $"{player.Name}: \n";
 
-            return bets.Where(bet => bet.WinAmount > 0).Aggregate(text, (current, bet) => current + $"{bet} won {bet.WinAmount} \n");
+            return bets.Where(bet => bet.WinAmount > 0).Aggregate(text, (current, bet) => current + $"\t{bet} won {bet.WinAmount} \n");
         }
 
         public bool PlayerPlaceBet(Player player, Bet bet)
@@ -63,7 +63,7 @@ namespace Roulette
 
         public string RepeatBet(Player player)
         {
-            const string placing = "Replacing bet(s):\n";
+            const string placing = "Rebetting:\n";
             var betStrings = "";
             var bets = new List<Bet>();
             try

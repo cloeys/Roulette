@@ -2,7 +2,7 @@
 {
     public enum Even
     {
-        Even,
+        Even = 1,
         Odd
     }
 }

@@ -10,7 +10,7 @@
 
         public StreetBet(Player player, double amount, int row) : base(12, player, amount)
         {
-            _row = row;
+            _row = row -1;
 
             if (_row >= 0 && _row <= 11)
             {

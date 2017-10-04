@@ -25,7 +25,7 @@ namespace Roulette
 
         public override string ToString()
         {
-            return $"Martingale Strategy: {Bet}, for {Bet.Amount} credits, turn {CurrentTurn}/{AmountOfTurns}";
+            return $"Martingale Strategy: {Bet}, turn {CurrentTurn}/{AmountOfTurns}";
         }
     }
 }
