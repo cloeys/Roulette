@@ -96,23 +96,7 @@ namespace Console
             Game.Table.MinimumBet = MINIMUM_BET;
             Game.Table.TotalLimit = TOTAL_LIMIT;
 
-            System.Console.BackgroundColor = ConsoleColor.DarkCyan;
-            System.Console.ForegroundColor = ConsoleColor.White;
-            System.Console.Clear();
-
-            System.Console.WriteLine("\r\n\t  ______                                 __                             \r\n\t /      \\                               /  |                            \r\n\t/$$$$$$  |  ______    ______    ______  $$ |   __   ______    _______   \r\n\t$$ |  $$/  /      \\  /      \\  /      \\ $$ |  /  | /      \\  /       |  \r\n\t$$ |      /$$$$$$  |/$$$$$$  |/$$$$$$  |$$ |_/$$/  $$$$$$  |/$$$$$$$/   \r\n\t$$ |   __ $$    $$ |$$ |  $$ |$$    $$ |$$   $$<   /    $$ |$$      \\   \r\n\t$$ \\__/  |$$$$$$$$/ $$ \\__$$ |$$$$$$$$/ $$$$$$  \\ /$$$$$$$ | $$$$$$  |  \r\n\t$$    $$/ $$       |$$    $$ |$$       |$$ | $$  |$$    $$ |/     $$/   \r\n\t $$$$$$/   $$$$$$$/  $$$$$$$ | $$$$$$$/ $$/   $$/  $$$$$$$/ $$$$$$$/    \r\n\t                    /  \\__$$ |                                          \r\n\t                    $$    $$/                                           \r\n\t                     $$$$$$/                                            \r\n\t _______                       __              __      __               \r\n\t/       \\                     /  |            /  |    /  |              \r\n\t$$$$$$$  |  ______   __    __ $$ |  ______   _$$ |_  _$$ |_     ______  \r\n\t$$ |__$$ | /      \\ /  |  /  |$$ | /      \\ / $$   |/ $$   |   /      \\ \r\n\t$$    $$< /$$$$$$  |$$ |  $$ |$$ |/$$$$$$  |$$$$$$/ $$$$$$/   /$$$$$$  |\r\n\t$$$$$$$  |$$ |  $$ |$$ |  $$ |$$ |$$    $$ |  $$ | __ $$ | __ $$    $$ |\r\n\t$$ |  $$ |$$ \\__$$ |$$ \\__$$ |$$ |$$$$$$$$/   $$ |/  |$$ |/  |$$$$$$$$/ \r\n\t$$ |  $$ |$$    $$/ $$    $$/ $$ |$$       |  $$  $$/ $$  $$/ $$       |\r\n\t$$/   $$/  $$$$$$/   $$$$$$/  $$/  $$$$$$$/    $$$$/   $$$$/   $$$$$$$/ \r\n\t                                                                        \r\n\t                                                                        \r\n\t                                                                        \r\n\t");
-            System.Console.ReadLine();
-            System.Console.Clear();
-
-            System.Console.WriteLine();
-            System.Console.WriteLine("\tPowered by");
-            System.Console.WriteLine("                                                                                                              \r\n                                                                                                             \r\n                                                                                                             \r\n                                                                                                             \r\n                                                                                                             \r\n                        .,,,,,,,,,,                                                                          \r\n             .*,     .,,,,,,,,,,,,,,*                                                                        \r\n           ,(*     .,,,,,,.      .,*(*                                                                       \r\n          *(*     .,,,,.           *((                                            ((                         \r\n        ./(*     .,,.             .//(.                                           ((                         \r\n       .((/      ,,              .////.      ,(####.  /###(.   ,(###(#(  *####/   ((   ((  ,(####*           \r\n      ./((,      ,              ,////*      /#,     .#/   /#. *%,   *%, (#   ,(#  (( /#,        *#,          \r\n      *(((.                   ,//////.      (#      *##(((##, ,#/. .## .##((((##. (###.    /#(((##,          \r\n      /(((.                 ,///////.       *#*     .#(       ,(,,,.    (#.       (( *#/  ,%*   *#,          \r\n      ((((*              .*////////          ./(##/   *(##(,  .(######.  .(##(/.  //   /#, .(##(,((.         \r\n      (%#((,         .,//////////,                           ,((    .#/                                      \r\n      .%%%%%/,,,,,*/////////////.                             *#(//(#(                                       \r\n       .#%%%%%#(/////////////.                                                                               \r\n         ,#%%%%%%%#(((/((/.                                                                                  \r\n             ,//(((//,.                                                                                      \r\n                                                                                                             ");
-            System.Console.ReadLine();
-            System.Console.Clear();
-
-            System.Console.BackgroundColor = ConsoleColor.White;
-            System.Console.ForegroundColor = ConsoleColor.DarkCyan;
-            System.Console.Clear();
+            ShowLogo();
 
             var aantalSpelers = 0;
 
@@ -151,6 +135,27 @@ namespace Console
             }
 
             PlayTurn();
+        }
+
+        private static void ShowLogo()
+        {
+            System.Console.BackgroundColor = ConsoleColor.DarkCyan;
+            System.Console.ForegroundColor = ConsoleColor.White;
+            System.Console.Clear();
+
+            System.Console.WriteLine("\r\n\t  ______                                 __                             \r\n\t /      \\                               /  |                            \r\n\t/$$$$$$  |  ______    ______    ______  $$ |   __   ______    _______   \r\n\t$$ |  $$/  /      \\  /      \\  /      \\ $$ |  /  | /      \\  /       |  \r\n\t$$ |      /$$$$$$  |/$$$$$$  |/$$$$$$  |$$ |_/$$/  $$$$$$  |/$$$$$$$/   \r\n\t$$ |   __ $$    $$ |$$ |  $$ |$$    $$ |$$   $$<   /    $$ |$$      \\   \r\n\t$$ \\__/  |$$$$$$$$/ $$ \\__$$ |$$$$$$$$/ $$$$$$  \\ /$$$$$$$ | $$$$$$  |  \r\n\t$$    $$/ $$       |$$    $$ |$$       |$$ | $$  |$$    $$ |/     $$/   \r\n\t $$$$$$/   $$$$$$$/  $$$$$$$ | $$$$$$$/ $$/   $$/  $$$$$$$/ $$$$$$$/    \r\n\t                    /  \\__$$ |                                          \r\n\t                    $$    $$/                                           \r\n\t                     $$$$$$/                                            \r\n\t _______                       __              __      __               \r\n\t/       \\                     /  |            /  |    /  |              \r\n\t$$$$$$$  |  ______   __    __ $$ |  ______   _$$ |_  _$$ |_     ______  \r\n\t$$ |__$$ | /      \\ /  |  /  |$$ | /      \\ / $$   |/ $$   |   /      \\ \r\n\t$$    $$< /$$$$$$  |$$ |  $$ |$$ |/$$$$$$  |$$$$$$/ $$$$$$/   /$$$$$$  |\r\n\t$$$$$$$  |$$ |  $$ |$$ |  $$ |$$ |$$    $$ |  $$ | __ $$ | __ $$    $$ |\r\n\t$$ |  $$ |$$ \\__$$ |$$ \\__$$ |$$ |$$$$$$$$/   $$ |/  |$$ |/  |$$$$$$$$/ \r\n\t$$ |  $$ |$$    $$/ $$    $$/ $$ |$$       |  $$  $$/ $$  $$/ $$       |\r\n\t$$/   $$/  $$$$$$/   $$$$$$/  $$/  $$$$$$$/    $$$$/   $$$$/   $$$$$$$/ \r\n\t                                                                        \r\n\t                                                                        \r\n\t                                                                        \r\n\t");
+            System.Console.ReadLine();
+            System.Console.Clear();
+
+            System.Console.WriteLine();
+            System.Console.WriteLine("\tPowered by");
+            System.Console.WriteLine("                                                                                                              \r\n                                                                                                             \r\n                                                                                                             \r\n                                                                                                             \r\n                                                                                                             \r\n                        .,,,,,,,,,,                                                                          \r\n             .*,     .,,,,,,,,,,,,,,*                                                                        \r\n           ,(*     .,,,,,,.      .,*(*                                                                       \r\n          *(*     .,,,,.           *((                                            ((                         \r\n        ./(*     .,,.             .//(.                                           ((                         \r\n       .((/      ,,              .////.      ,(####.  /###(.   ,(###(#(  *####/   ((   ((  ,(####*           \r\n      ./((,      ,              ,////*      /#,     .#/   /#. *%,   *%, (#   ,(#  (( /#,        *#,          \r\n      *(((.                   ,//////.      (#      *##(((##, ,#/. .## .##((((##. (###.    /#(((##,          \r\n      /(((.                 ,///////.       *#*     .#(       ,(,,,.    (#.       (( *#/  ,%*   *#,          \r\n      ((((*              .*////////          ./(##/   *(##(,  .(######.  .(##(/.  //   /#, .(##(,((.         \r\n      (%#((,         .,//////////,                           ,((    .#/                                      \r\n      .%%%%%/,,,,,*/////////////.                             *#(//(#(                                       \r\n       .#%%%%%#(/////////////.                                                                               \r\n         ,#%%%%%%%#(((/((/.                                                                                  \r\n             ,//(((//,.                                                                                      \r\n                                                                                                             ");
+            System.Console.ReadLine();
+            System.Console.Clear();
+
+            System.Console.BackgroundColor = ConsoleColor.White;
+            System.Console.ForegroundColor = ConsoleColor.DarkCyan;
+            System.Console.Clear();
         }
 
         private static void PlayTurn()
