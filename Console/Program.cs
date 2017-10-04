@@ -5,6 +5,7 @@ using System.Net;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
+using Flogging.Core;
 using Microsoft.SqlServer.Server;
 using Roulette;
 using Roulette.Bets;
@@ -27,7 +28,7 @@ namespace Console
         {
             StartGame();
         }
-
+        
         private static void ShowPlayerStack()
         {
             System.Console.Clear();
@@ -63,6 +64,8 @@ namespace Console
         {
             if (!string.IsNullOrEmpty(_error))
             {
+                var d = Flogger.GetFlogDetail(_error, null);
+                Flogger.WriteError(d);
                 System.Console.WriteLine($"\n Error: {_error}");
                 _error = "";
             }
@@ -72,6 +75,8 @@ namespace Console
         {
             if (!string.IsNullOrEmpty(_message))
             {
+                var d = Flogger.GetFlogDetail(_message, null);
+                Flogger.WriteDiagnostic(d);
                 System.Console.WriteLine($"\n {_message}");
                 _message = "";
             }
