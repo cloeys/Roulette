@@ -28,9 +28,9 @@ namespace UnitTest.Bets
         {
             Game game = new Game();
             Player player = new Player(game, 200, "test");
-            Bet bet = new ColorBet(player, 0, "red");
+            Bet bet = new ColorBet(player, 10, "red");
 
-            Assert.AreEqual("color bet on red", bet.ToString());
+            Assert.AreEqual("Color bet on red for $ 10", bet.ToString());
         }
     }
 }
