@@ -6,7 +6,11 @@ namespace Roulette.Bets
     {
         private readonly Even _even;
 
-        public EvenBet(Player player, Even even) : base(2, player)
+        public EvenBet(Player player, Even even) : this(player, 0, even)
+        {
+        }
+
+        public EvenBet(Player player, double amount, Even even) : base(2, player, amount)
         {
             _even = even;
 

@@ -4,17 +4,8 @@
     {
         private readonly int _row;
 
-        public LineBet(Player player, int row) : base(6, player)
+        public LineBet(Player player, int row) : this(player, 0, row)
         {
-            _row = row;
-
-            if (_row >= 0 && _row <= 10)
-            {
-                for (int i = _row * 3 + 1; i <= _row * 3 + 6; i++)
-                {
-                    Tiles.Add(player.Game.Table.Tiles[i]);
-                }
-            }
         }
 
         public LineBet(Player player, double amount, int row) : base(6, player, amount)
