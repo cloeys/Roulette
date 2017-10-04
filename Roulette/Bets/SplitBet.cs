@@ -20,7 +20,7 @@ namespace Roulette.Bets
             }
             else
             {
-                throw new RouletteException("No split between the given tiles");
+                throw new RouletteException($"No split between the given tiles {_first} and {_second}");
             }
         }
 
@@ -36,7 +36,7 @@ namespace Roulette.Bets
             }
             else
             {
-                throw new RouletteException("No split between the given tiles");
+                throw new RouletteException($"No split between the given tiles {_first} and {_second}");
             }
         }
 
@@ -65,7 +65,7 @@ namespace Roulette.Bets
 
         public override string ToString()
         {
-            return $"Split bet on tiles {_first} and {_second}";
+            return $"Split bet on tiles {_first} and {_second} for $ {Amount}";
         }
     }
 }

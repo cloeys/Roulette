@@ -2,7 +2,7 @@
 {
     public enum Half
     {
-        FirstHalf,
+        FirstHalf = 1,
         SecondHalf
     }
 }

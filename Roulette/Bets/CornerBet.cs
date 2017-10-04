@@ -30,7 +30,7 @@ namespace Roulette.Bets
             }
             else
             {
-                throw new RouletteException("No corner found for current tiles");
+                throw new RouletteException($"No corner found for tiles {values[0]}, {values[1]}, {values[2]}, {values[3]}");
             }
         }
 
@@ -53,7 +53,7 @@ namespace Roulette.Bets
             }
             else
             {
-                throw new RouletteException("No corner found for current tiles");
+                throw new RouletteException($"No corner found for tiles {values[0]}, {values[1]}, {values[2]}, {values[3]}");
             }
         }
 
@@ -76,7 +76,7 @@ namespace Roulette.Bets
 
         public override string ToString()
         {
-            return $"Corner bet on {_first}, {_second}, {_third} and {_fourth}";
+            return $"Corner bet on {_first}, {_second}, {_third} and {_fourth} for $ {Amount}";
         }
     }
 }

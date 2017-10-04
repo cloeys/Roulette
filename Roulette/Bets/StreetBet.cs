@@ -6,7 +6,7 @@
 
         public StreetBet(Player player, int row) : base(12, player)
         {
-            _row = row;
+            _row = row -1;
 
             if (_row >= 0 && _row <= 11)
             {
@@ -19,7 +19,7 @@
 
         public StreetBet(Player player, double amount, int row) : base(12, player, amount)
         {
-            _row = row;
+            _row = row -1;
 
             if (_row >= 0 && _row <= 11)
             {
@@ -32,7 +32,7 @@
 
         public override string ToString()
         {
-            return $"Street bet on row {_row+1}";
+            return $"Street bet on row {_row+1} for $ {Amount}";
         }
     }
 }

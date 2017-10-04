@@ -6,7 +6,7 @@
 
         public LineBet(Player player, int row) : base(6, player)
         {
-            _row = row;
+            _row = row-1;
 
             if (_row >= 0 && _row <= 10)
             {
@@ -19,7 +19,7 @@
 
         public LineBet(Player player, double amount, int row) : base(6, player, amount)
         {
-            _row = row;
+            _row = row-1;
 
             if (_row >= 0 && _row <= 10)
             {
@@ -32,7 +32,7 @@
 
         public override string ToString()
         {
-            return $"Row bet on row {_row+1}";
+            return $"Row bet on row {_row+1} of two rows for $ {Amount}";
         }
     }
 }
