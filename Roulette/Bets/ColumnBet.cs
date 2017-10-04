@@ -7,14 +7,8 @@ namespace Roulette.Bets
     {
         private readonly Column _column;
 
-        public ColumnBet(Player player, Column column) : base(3, player)
+        public ColumnBet(Player player, Column column) : this(player, 0, column)
         {
-            _column = column;
-
-            for (int i = (int)column; i < 37; i += 3)
-            {
-                Tiles.Add(player.Game.Table.Tiles[i]);
-            }
         }
 
         public ColumnBet(Player player, double amount, Column column) : base(3, player, amount)

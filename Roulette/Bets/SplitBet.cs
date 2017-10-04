@@ -8,20 +8,8 @@ namespace Roulette.Bets
         private readonly int _first;
         private readonly int _second;
 
-        public SplitBet(Player player, Tile firstTile, Tile secondTile) : base(18, player)
+        public SplitBet(Player player, Tile firstTile, Tile secondTile) : this(player, 0, firstTile, secondTile)
         {
-            _first = Int32.Parse(firstTile.Value);
-            _second = Int32.Parse(secondTile.Value);
-
-            if (CheckNeighbour(_first, _second))
-            {
-                Tiles.Add(firstTile);
-                Tiles.Add(secondTile);
-            }
-            else
-            {
-                throw new RouletteException($"No split between the given tiles {_first} and {_second}");
-            }
         }
 
         public SplitBet(Player player, double amount, Tile firstTile, Tile secondTile) : base(18, player, amount)

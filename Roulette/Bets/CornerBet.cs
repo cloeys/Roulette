@@ -11,27 +11,8 @@ namespace Roulette.Bets
         private readonly int _third;
         private readonly int _fourth;
 
-        public CornerBet(Player player, Tile firstTile, Tile secondTile, Tile thirdTile, Tile fourthTile) : base(9, player)
+        public CornerBet(Player player, Tile firstTile, Tile secondTile, Tile thirdTile, Tile fourthTile) : this(player, 0, firstTile, secondTile, thirdTile, fourthTile)
         {
-            _first = Int32.Parse(firstTile.Value);
-            _second = Int32.Parse(secondTile.Value);
-            _third = Int32.Parse(thirdTile.Value);
-            _fourth = Int32.Parse(fourthTile.Value);
-
-            List<int> values = new List<int> { _first, _second, _third, _fourth };
-            values.Sort();
-
-            if (IsSquare(values[0], values[1], values[2], values[3]))
-            {
-                Tiles.Add(firstTile);
-                Tiles.Add(secondTile);
-                Tiles.Add(thirdTile);
-                Tiles.Add(fourthTile);
-            }
-            else
-            {
-                throw new RouletteException($"No corner found for tiles {values[0]}, {values[1]}, {values[2]}, {values[3]}");
-            }
         }
 
         public CornerBet(Player player, double amount, Tile firstTile, Tile secondTile, Tile thirdTile, Tile fourthTile) : base(9, player, amount)

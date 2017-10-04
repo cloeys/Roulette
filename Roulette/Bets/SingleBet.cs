@@ -4,10 +4,8 @@
     {
         private readonly Tile _tile;
 
-        public SingleBet(Player player, Tile tile) : base(36, player)
+        public SingleBet(Player player, Tile tile) : this(player, 0, tile)
         {
-            _tile = tile;
-            Tiles.Add(_tile);
         }
 
         public SingleBet(Player player, double amount, Tile tile) : base(36, player, amount)
