@@ -57,7 +57,7 @@ namespace Roulette.Bets
 
         public override string ToString()
         {
-            return $"Corner bet on {_first}, {_second}, {_third} and {_fourth}";
+            return $"Corner bet on {_first}, {_second}, {_third} and {_fourth} for $ {Amount}";
         }
     }
 }

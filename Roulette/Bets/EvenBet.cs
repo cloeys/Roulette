@@ -28,7 +28,7 @@ namespace Roulette.Bets
 
         public override string ToString()
         {
-            return $"Even bet on {_even.ToString().ToLower()}";
+            return $"Even bet on {_even.ToString().ToLower()} for $ {Amount}";
         }
     }
 }

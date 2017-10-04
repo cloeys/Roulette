@@ -53,7 +53,7 @@ namespace Roulette.Bets
 
         public override string ToString()
         {
-            return $"Split bet on tiles {_first} and {_second}";
+            return $"Split bet on tiles {_first} and {_second} for $ {Amount}";
         }
     }
 }

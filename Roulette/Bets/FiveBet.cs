@@ -18,7 +18,7 @@ namespace Roulette.Bets
 
         public override string ToString()
         {
-            return $"Five bet";
+            return $"Five bet for $ {Amount}";
         }
     }
 }
