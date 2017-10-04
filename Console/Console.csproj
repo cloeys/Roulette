@@ -49,8 +49,8 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\Users\christol\Downloads\serilog\03\demos\Flogging\Flogging.Core\Flogging.Core.csproj">
-      <Project>{F7C7F128-DD83-476A-9998-C9D0233AE095}</Project>
+    <ProjectReference Include="..\Flogging.Core\Flogging.Core.csproj">
+      <Project>{F7E9E2E8-7AF9-463A-BF9B-51A427E828BE}</Project>
       <Name>Flogging.Core</Name>
     </ProjectReference>
     <ProjectReference Include="..\Roulette\Roulette.csproj">
