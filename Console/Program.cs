@@ -92,9 +92,7 @@ namespace Console
 
         private static void StartGame()
         {
-            Game = new Game();
-            Game.Table.MinimumBet = MINIMUM_BET;
-            Game.Table.TotalLimit = TOTAL_LIMIT;
+            Game = new Game(MINIMUM_BET, TOTAL_LIMIT);
 
             ShowLogo();
 
@@ -179,7 +177,7 @@ namespace Console
                             var proceed = System.Console.ReadLine();
                             if (proceed != null && proceed.Equals("exit"))
                             {
-                                player.Strategy = null;
+                                player.CancelStrategy();
                                 StrategyBetQuestion(player);
                             }
                             else
@@ -209,7 +207,7 @@ namespace Console
                 }
                 Game.PlayTurn();
                 System.Console.WriteLine("\n\n");
-                WriteColor($"The winning number is {Game.CurrentTurn.WinningTile.Color} {Game.CurrentTurn.WinningTile.Value}!", ConsoleColor.Blue);
+                WriteColor($"The winning number is {Game.GetWinningTile().Color} {Game.GetWinningTile().Value}!", ConsoleColor.Blue);
 
                 foreach (var player in Game.Players)
                 {
@@ -310,7 +308,7 @@ namespace Console
                 var amountValid = false;
                 do
                 {
-                    var total = Game.CurrentTurn.Bets.Where(b => b.Player == player).ToList().Sum(b => b.Amount);
+                    var total = Game.GetCurrentBetAmount(player);
 
                     System.Console.WriteLine($"Enter amount to bet (MIN: {Game.Table.MinimumBet} MAX: {Game.Table.TotalLimit - total}):");
                     if (double.TryParse(System.Console.ReadLine(), out var amount))
@@ -415,7 +413,7 @@ namespace Console
                     System.Console.WriteLine("Please enter a valid amount!");
                 }
             } while (!amountValid);
-            player.Strategy = strategy;
+            Game.AssignPlayerStrategy(player, strategy);
             PlaceBet(player);
         }
 
@@ -503,11 +501,10 @@ namespace Console
             System.Console.WriteLine("[2] Second");
             System.Console.WriteLine("[3] Third");
             var value = System.Console.ReadLine();
-            int valueInt;
 
-            if (Int32.TryParse(value, out valueInt) && Enum.IsDefined(typeof(Column), valueInt))
+            if (int.TryParse(value, out var valueInt) && Enum.IsDefined(typeof(Column), valueInt))
             {
-                Column column = (Column)Enum.ToObject(typeof(Column), valueInt);
+                var column = (Column)Enum.ToObject(typeof(Column), valueInt);
                 bet = new DozenBet(player, column);
             }
             else
@@ -522,11 +519,10 @@ namespace Console
             System.Console.WriteLine("[1] Even");
             System.Console.WriteLine("[2] Odd");
             var value = System.Globalization.CultureInfo.CurrentCulture.TextInfo.ToTitleCase(System.Console.ReadLine());
-            int valueInt;
 
-            if (Int32.TryParse(value, out valueInt) && Enum.IsDefined(typeof(Even), valueInt))
+            if (int.TryParse(value, out var valueInt) && Enum.IsDefined(typeof(Even), valueInt))
             {
-                Even even = (Even)Enum.ToObject(typeof(Even), valueInt);
+                var even = (Even)Enum.ToObject(typeof(Even), valueInt);
                 bet = new EvenBet(player, even);
             }
             else
@@ -609,7 +605,7 @@ namespace Console
 
         private static Tile GetTileByValue(string value)
         {
-            return Game.Table.Tiles.FirstOrDefault(t => t.Value == value);
+            return Game.GetTileByValue(value);
         }
 
     }

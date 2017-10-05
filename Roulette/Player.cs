@@ -48,5 +48,10 @@ namespace Roulette
             double total = Game.CurrentTurn.Bets.Where(b => b.Player == this).ToList().Sum(bet => bet.Amount);
             return amount + total <= Game.Table.TotalLimit;
         }
+
+        public void CancelStrategy()
+        {
+            Strategy = null;
+        }
     }
 }

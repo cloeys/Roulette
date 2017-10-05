@@ -11,10 +11,35 @@ namespace Roulette
         public List<Player> Players = new List<Player>();
         public List<Turn> TurnHistory = new List<Turn>();
 
+        public Game()
+        {
+            
+        }
+
+        public Game(int minimumBet, int totalLimit)
+        {
+            Table.MinimumBet = minimumBet;
+            Table.TotalLimit = totalLimit;
+        }
+
+        public Tile GetWinningTile()
+        {
+            return CurrentTurn.WinningTile;
+        }
+
+        public Tile GetWinningTile(Turn turn)
+        {
+            return turn.WinningTile;
+        }
+
+        public double GetCurrentBetAmount(Player player)
+        {
+            return CurrentTurn.Bets.Where(b => b.Player == player).ToList().Sum(b => b.Amount);
+        }
+
         public void AddPlayer(Player player)
         {
             Players.Add(player);
-
         }
 
         public void StartTurn()
@@ -91,6 +116,16 @@ namespace Roulette
             }
             return placing + betStrings;
 
+        }
+
+        public void AssignPlayerStrategy(Player player, Strategy strategy)
+        {
+            player.Strategy = strategy;
+        }
+
+        public Tile GetTileByValue(string value)
+        {
+            return Table.Tiles.FirstOrDefault(t => t.Value == value);
         }
     }
 }

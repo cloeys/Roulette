@@ -23,11 +23,7 @@
 
         public override string ToString()
         {
-<<<<<<< HEAD
-            return $"Row bet on row {_row+1} for $ {Amount}";
-=======
             return $"Row bet on row {_row+1} of two rows for $ {Amount}";
->>>>>>> 240b5379962a46879545d329486ede732d63bf50
         }
     }
 }
