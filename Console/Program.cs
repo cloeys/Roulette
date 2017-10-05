@@ -187,7 +187,7 @@ namespace Console
                         }
                         catch (RouletteException e)
                         {
-                            _message = e.Message;
+                            _error = e.Message;
                             StrategyBetQuestion(player);
                         }
                     }
